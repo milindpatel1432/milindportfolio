@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, BookOpen, AlertCircle, TrendingUp } from 'lucide-react';
+import { ExternalLink, AlertCircle, TrendingUp } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
 import Section, { SectionHeading } from '../../layouts/Section';
 import { projects, projectFilters } from '../../utils/data';
@@ -28,20 +28,31 @@ function ProjectCard({ project }) {
         {/* Gradient BG as image placeholder */}
         <div className={cn('absolute inset-0 bg-gradient-to-br', project.gradient)} />
 
-        {/* Animated grid overlay */}
-        <div className="absolute inset-0 bg-grid opacity-30" aria-hidden="true" />
+        {/* Real Image or Initial fallback */}
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 relative z-0"
+          />
+        ) : (
+          <>
+            {/* Animated grid overlay */}
+            <div className="absolute inset-0 bg-grid opacity-30" aria-hidden="true" />
 
-        {/* Project initial typography icon */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            animate={{ scale: hovered ? 1.12 : 1, y: hovered ? -4 : 0 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="text-7xl font-outfit font-black opacity-30 select-none"
-            style={{ color: project.accent }}
-          >
-            {project.title.charAt(0)}
-          </motion.div>
-        </div>
+            {/* Project initial typography icon */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div
+                animate={{ scale: hovered ? 1.12 : 1, y: hovered ? -4 : 0 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+                className="text-7xl font-outfit font-black opacity-30 select-none"
+                style={{ color: project.accent }}
+              >
+                {project.title.charAt(0)}
+              </motion.div>
+            </div>
+          </>
+        )}
 
         {/* Quick action hover overlay */}
         <motion.div
@@ -70,14 +81,6 @@ function ProjectCard({ project }) {
             tabIndex={hovered ? 0 : -1}
           >
             <FiGithub size={16} /> Code
-          </a>
-          <a
-            href={project.caseStudyUrl}
-            className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
-            aria-label={`Read ${project.title} case study`}
-            tabIndex={hovered ? 0 : -1}
-          >
-            <BookOpen size={16} /> Details
           </a>
         </motion.div>
 
@@ -162,14 +165,6 @@ function ProjectCard({ project }) {
           >
             <FiGithub size={13} />
             GitHub
-          </a>
-          <a
-            href={project.caseStudyUrl}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 transition-all duration-200"
-            aria-label={`Case study of ${project.title}`}
-          >
-            <BookOpen size={13} />
-            Case Study
           </a>
         </div>
       </div>

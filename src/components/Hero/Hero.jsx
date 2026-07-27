@@ -145,8 +145,8 @@ export default function Hero() {
             className="relative flex items-center justify-center lg:justify-end"
           >
             {/* Outer glow ring */}
-            <div className="absolute w-[420px] h-[420px] md:w-[520px] md:h-[520px] rounded-full bg-violet-600/10 blur-3xl" aria-hidden="true" />
-            <div className="absolute w-[300px] h-[300px] rounded-full bg-cyan-500/5 blur-2xl translate-x-8 translate-y-8" aria-hidden="true" />
+            <div className="absolute w-[420px] h-[420px] md:w-[520px] md:h-[520px] rounded-full bg-violet-500/25 blur-3xl" aria-hidden="true" />
+            <div className="absolute w-[300px] h-[300px] rounded-full bg-cyan-400/20 blur-2xl translate-x-8 translate-y-8" aria-hidden="true" />
 
             {/* Avatar Container */}
             <div className="relative animate-float">
@@ -157,9 +157,9 @@ export default function Hero() {
                   className="absolute inset-0 rounded-full p-[2.5px] shadow-2xl"
                   style={{
                     background:
-                      'conic-gradient(from 0deg, #7c3aed 0%, #06b6d4 25%, #ec4899 50%, #8b5cf6 75%, #7c3aed 100%)',
+                      'conic-gradient(from 0deg, #a78bfa 0%, #38bdf8 25%, #f472b6 50%, #c084fc 75%, #a78bfa 100%)',
                     animation: 'aurora-drift-4 8s ease-in-out infinite',
-                    boxShadow: '0 0 35px rgba(124, 58, 237, 0.35), 0 0 60px rgba(6, 182, 212, 0.2)',
+                    boxShadow: '0 0 45px rgba(167, 139, 250, 0.5), 0 0 85px rgba(56, 189, 248, 0.35)',
                   }}
                   aria-hidden="true"
                 >
@@ -168,7 +168,7 @@ export default function Hero() {
                     className="w-full h-full rounded-full backdrop-blur-md relative overflow-hidden"
                     style={{
                       background:
-                        'radial-gradient(circle at 35% 35%, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.15) 45%, rgba(10, 10, 15, 0.5) 85%)',
+                        'radial-gradient(circle at 35% 35%, rgba(167, 139, 250, 0.55), rgba(56, 189, 248, 0.45) 45%, rgba(244, 114, 182, 0.35) 75%, rgba(30, 27, 75, 0.25) 100%)',
                     }}
                   >
                     {/* Glowing Mesh Lines */}
@@ -176,26 +176,26 @@ export default function Hero() {
 
                     {/* Orbiting Aesthetic Spark 1 */}
                     <div
-                      className="absolute top-4 left-1/4 w-3 h-3 rounded-full bg-cyan-400 animate-pulse"
-                      style={{ boxShadow: '0 0 12px #06b6d4, 0 0 20px #06b6d4' }}
+                      className="absolute top-4 left-1/4 w-3 h-3 rounded-full bg-cyan-300 animate-pulse"
+                      style={{ boxShadow: '0 0 14px #38bdf8, 0 0 24px #38bdf8' }}
                     />
 
                     {/* Orbiting Aesthetic Spark 2 */}
                     <div
-                      className="absolute bottom-8 right-6 w-2.5 h-2.5 rounded-full bg-pink-400 animate-pulse"
-                      style={{ boxShadow: '0 0 10px #ec4899, 0 0 18px #ec4899', animationDelay: '1s' }}
+                      className="absolute bottom-8 right-6 w-2.5 h-2.5 rounded-full bg-pink-300 animate-pulse"
+                      style={{ boxShadow: '0 0 12px #f472b6, 0 0 22px #f472b6', animationDelay: '1s' }}
                     />
 
                     {/* Orbiting Aesthetic Spark 3 */}
                     <div
-                      className="absolute top-1/2 right-4 w-3 h-3 rounded-full bg-violet-400 animate-pulse"
-                      style={{ boxShadow: '0 0 14px #a78bfa, 0 0 22px #a78bfa', animationDelay: '2s' }}
+                      className="absolute top-1/2 right-4 w-3 h-3 rounded-full bg-violet-300 animate-pulse"
+                      style={{ boxShadow: '0 0 16px #c084fc, 0 0 26px #c084fc', animationDelay: '2s' }}
                     />
                   </div>
                 </div>
 
                 {/* Avatar inner */}
-                <div className="absolute inset-[3px] rounded-full bg-[#0a0a0f]/70 backdrop-blur-sm flex items-center justify-center overflow-hidden border border-violet-500/20 shadow-inner z-10">
+                <div className="absolute inset-[3px] rounded-full bg-[#0a0a0f]/40 backdrop-blur-sm flex items-center justify-center overflow-hidden border border-violet-400/30 shadow-inner z-10">
                   <img
                     src={avatarImg}
                     alt="Milind - Full Stack Developer"
@@ -203,8 +203,8 @@ export default function Hero() {
                   />
                   {/* Inner ambient glow overlay (transparent) */}
                   <div
-                    className="absolute inset-0 pointer-events-none opacity-20"
-                    style={{ background: 'radial-gradient(circle at 50% 100%, rgba(124, 58, 237, 0.2), transparent 70%)' }}
+                    className="absolute inset-0 pointer-events-none opacity-30"
+                    style={{ background: 'radial-gradient(circle at 50% 100%, rgba(167, 139, 250, 0.35), transparent 70%)' }}
                     aria-hidden="true"
                   />
                 </div>

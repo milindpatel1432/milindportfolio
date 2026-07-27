@@ -1,3 +1,5 @@
+import gamehubHeroImg from '../assets/gamehub-hero.png';
+
 /**
  * All portfolio data — projects, skills, services, trust signals, nav links.
  * Optimized for recruiter conversion and international freelance client acquisition.
@@ -77,6 +79,22 @@ export const techStack = [
 export const projects = [
   {
     id: 1,
+    title: 'GameHub – AAA Gaming E-Commerce Marketplace',
+    category: 'web',
+    problem: 'Gamers and store admins need a modern, high-performance platform for gaming gear, digital products, real-time order tracking, and automated payments.',
+    description: 'A modern full-stack gaming e-commerce marketplace built with MERN stack. Features JWT auth, gaming categories, cart/wishlist management, Razorpay payment integration, Cloudinary image uploads, and an admin dashboard.',
+    businessValue: 'Production-ready full-stack architecture with sub-second page loads, automated payments, and real-time order & inventory management.',
+    gradient: 'from-cyan-600/30 via-blue-700/20 to-purple-900/40',
+    accent: '#06b6d4',
+    image: gamehubHeroImg,
+    tech: ['React 19', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS', 'Razorpay', 'JWT', 'Cloudinary'],
+    liveUrl: 'https://gamehub-ecommerce.vercel.app/',
+    githubUrl: 'https://github.com/milindpatel1432/gamehub-ecommerce',
+    caseStudyUrl: '/project/gamehub',
+    featured: true,
+  },
+  {
+    id: 2,
     title: 'NexaCommerce Suite',
     category: 'web',
     problem: 'Traditional store fronts suffer from slow page load speeds and drop-offs during checkout.',
