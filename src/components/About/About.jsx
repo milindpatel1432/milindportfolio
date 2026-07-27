@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Download, Code2, Users, Briefcase, Award, CheckCircle2, Zap, ShieldCheck } from 'lucide-react';
+import { Download, Code2, Briefcase, CheckCircle2, Zap, ShieldCheck } from 'lucide-react';
 import Section, { SectionHeading } from '../../layouts/Section';
 import Button from '../Button/Button';
 import Card from '../Card/Card';

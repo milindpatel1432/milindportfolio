@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { navLinks, socialLinks } from '../../utils/data';
+import { navLinks } from '../../utils/data';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { cn } from '../../utils/cn';
 import Button from '../Button/Button';
@@ -95,7 +95,7 @@ export default function Navbar() {
           {/* Desktop CTA + Social */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="https://github.com/milind"
+              href="https://github.com/milindpatel1432"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
@@ -216,7 +216,7 @@ export default function Navbar() {
                 </Button>
                 <div className="flex items-center justify-center gap-4">
                   {[
-                    { href: 'https://github.com/milind', Icon: FiGithub, label: 'GitHub' },
+                    { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub' },
                     { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn' },
                     { href: 'https://twitter.com/milind', Icon: FiTwitter, label: 'Twitter' },
                   ].map(({ href, Icon, label }) => (

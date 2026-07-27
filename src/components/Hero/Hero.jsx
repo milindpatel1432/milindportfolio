@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Download, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { ArrowDown, ExternalLink, CheckCircle2 } from 'lucide-react';
 import { FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
 import Button from '../Button/Button';
 import {
@@ -13,7 +13,7 @@ import avatarImg from '../../assets/avatar.png';
 const techBadges = ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'TypeScript', 'Tailwind CSS'];
 
 const socialLinks = [
-  { href: 'https://github.com/milind', Icon: FiGithub, label: 'GitHub' },
+  { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub' },
   { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn' },
   { href: 'https://twitter.com/milind', Icon: FiTwitter, label: 'Twitter' },
   { href: 'mailto:milindpatel1432@gmail.com', Icon: FiMail, label: 'Email' },

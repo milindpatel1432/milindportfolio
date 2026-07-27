@@ -61,7 +61,7 @@ export default function Testimonials() {
 
           {/* 4 Trust Pillars */}
           <div className="grid sm:grid-cols-2 gap-6 mb-10">
-            {trustPillars.map((pillar, i) => {
+            {trustPillars.map((pillar) => {
               const Icon = iconMap[pillar.icon] ?? ShieldCheck;
               return (
                 <div key={pillar.title} className="p-5 rounded-2xl glass border border-white/[0.05] flex items-start gap-4">

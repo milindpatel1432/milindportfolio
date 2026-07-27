@@ -10,7 +10,7 @@ import { cn } from '../../utils/cn';
 const iconMap = { mail: Mail, phone: Phone, 'map-pin': MapPin };
 
 const socialLinks = [
-  { href: 'https://github.com/milind', Icon: FiGithub, label: 'GitHub', color: 'hover:text-white' },
+  { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub', color: 'hover:text-white' },
   { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn', color: 'hover:text-blue-400' },
   { href: 'https://twitter.com/milind', Icon: FiTwitter, label: 'Twitter', color: 'hover:text-sky-400' },
   { href: 'https://instagram.com/milind', Icon: FiInstagram, label: 'Instagram', color: 'hover:text-pink-400' },

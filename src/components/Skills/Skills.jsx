@@ -134,7 +134,7 @@ export default function Skills() {
         className="border-t border-white/[0.06] pt-10"
       >
         <p className="text-center text-xs font-semibold tracking-[0.2em] uppercase text-white/30 mb-6">
-          Full MERN Stack & Ecosystem Tools
+          Full Stack & Ecosystem Tools
         </p>
         <div className="overflow-hidden mask-gradient-x">
           <div className="animate-marquee">

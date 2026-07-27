@@ -247,7 +247,7 @@ export default function Projects() {
         className="flex justify-center mt-12"
       >
         <Button
-          href="https://github.com/milind"
+          href="https://github.com/milindpatel1432"
           target="_blank"
           variant="secondary"
           size="lg"
