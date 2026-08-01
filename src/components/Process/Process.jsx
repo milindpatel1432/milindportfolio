@@ -22,7 +22,7 @@ export default function Process() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="text-center mb-16"
+        className="text-center"
       >
         <SectionHeading
           eyebrow="Workflow & Delivery"

@@ -38,7 +38,7 @@ const timeline = [
 export default function About() {
   return (
     <Section id="about" label="About section">
-      <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center">
 
         {/* ── Left — Profile Card & Believable Stats ── */}
         <motion.div
@@ -52,7 +52,7 @@ export default function About() {
             {/* Background glow */}
             <div className="absolute -inset-8 bg-violet-600/8 rounded-3xl blur-3xl" aria-hidden="true" />
 
-            <Card className="p-8 gradient-border-violet relative z-10">
+            <Card className="p-6 md:p-8 gradient-border-violet relative z-10">
               {/* Profile top */}
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center shadow-lg shadow-violet-500/30 shrink-0">

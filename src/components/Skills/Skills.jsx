@@ -62,7 +62,7 @@ export default function Skills() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="text-center mb-12"
+        className="text-center"
       >
         <SectionHeading
           eyebrow="Technical Stack"
@@ -78,7 +78,7 @@ export default function Skills() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={viewportOnce}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="flex items-center justify-center gap-2 mb-12 flex-wrap"
+        className="flex items-center justify-center gap-2 mb-8 md:mb-10 flex-wrap"
         role="tablist"
         aria-label="Skill categories"
       >
@@ -113,7 +113,7 @@ export default function Skills() {
           transition={{ duration: 0.35 }}
           role="tabpanel"
           aria-label={`${activeCategory?.label} skills`}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 lg:mb-12"
         >
           {activeCategory?.skills.map((skill, i) => (
             <SkillCard
@@ -131,9 +131,9 @@ export default function Skills() {
         whileInView={{ opacity: 1 }}
         viewport={viewportOnce}
         transition={{ duration: 0.6 }}
-        className="border-t border-white/[0.06] pt-10"
+        className="border-t border-white/[0.06] pt-6 lg:pt-8"
       >
-        <p className="text-center text-xs font-semibold tracking-[0.2em] uppercase text-white/30 mb-6">
+        <p className="text-center text-xs font-semibold tracking-[0.2em] uppercase text-white/30 mb-4 md:mb-6">
           Full Stack & Ecosystem Tools
         </p>
         <div className="overflow-hidden mask-gradient-x">

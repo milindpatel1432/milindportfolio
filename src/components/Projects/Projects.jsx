@@ -214,7 +214,7 @@ export default function Projects() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
+        className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-10 lg:mb-12"
       >
         <SectionHeading
           eyebrow="Featured Case Studies"
@@ -224,7 +224,7 @@ export default function Projects() {
 
         {/* Filter Tabs */}
         <div
-          className="flex items-center gap-2 flex-wrap shrink-0"
+          className="flex items-center gap-2 flex-wrap shrink-0 md:mb-12 lg:mb-14"
           role="tablist"
           aria-label="Project filters"
         >
@@ -265,7 +265,7 @@ export default function Projects() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={viewportOnce}
         transition={{ delay: 0.3 }}
-        className="flex justify-center mt-12"
+        className="flex justify-center mt-8 lg:mt-10"
       >
         <Button
           href="https://github.com/milindpatel1432"

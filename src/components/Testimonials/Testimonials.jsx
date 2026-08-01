@@ -26,7 +26,7 @@ export default function Testimonials() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="text-center mb-14"
+        className="text-center"
       >
         <SectionHeading
           eyebrow="Client Commitment"

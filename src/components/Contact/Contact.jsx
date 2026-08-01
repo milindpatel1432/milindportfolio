@@ -84,7 +84,7 @@ export default function Contact() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="text-center mb-14"
+        className="text-center"
       >
         <SectionHeading
           eyebrow="Start A Conversation"
@@ -94,7 +94,7 @@ export default function Contact() {
         />
       </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+      <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
 
         {/* ── Left — Contact Details & Direct Outreach ── */}
         <motion.div

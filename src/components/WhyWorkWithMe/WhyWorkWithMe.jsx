@@ -22,7 +22,7 @@ export default function WhyWorkWithMe() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="text-center mb-14"
+        className="text-center"
       >
         <SectionHeading
           eyebrow="Value & Standards"
@@ -33,7 +33,7 @@ export default function WhyWorkWithMe() {
       </motion.div>
 
       {/* Grid of 6 Pillars */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
         {whyWorkWithMe.map((item, index) => {
           const Icon = iconMap[item.icon] ?? CodeXml;
           return (

@@ -108,7 +108,7 @@ export default function Services() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="text-center mb-14"
+        className="text-center"
       >
         <SectionHeading
           eyebrow="Freelance Services"
@@ -119,7 +119,7 @@ export default function Services() {
       </motion.div>
 
       {/* Services Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
         {services.map((service, i) => (
           <ServiceCard key={service.id} service={service} index={i} />
         ))}
@@ -131,7 +131,7 @@ export default function Services() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={viewportOnce}
         transition={{ delay: 0.4 }}
-        className="mt-16 text-center"
+        className="mt-10 lg:mt-12 text-center"
       >
         <p className="text-white/50 text-sm mb-4">
           Need a custom full-stack application tailored to your specific business requirements?
