@@ -1,4 +1,5 @@
 import gamehubHeroImg from '../assets/gamehub-hero.png';
+import dentalProjectImg from '../assets/thedentalproject.png';
 
 /**
  * All portfolio data — projects, skills, services, trust signals, nav links.
@@ -77,6 +78,23 @@ export const techStack = [
 ];
 
 export const projects = [
+  {
+    id: 'dental-project',
+    title: 'The Dental Project',
+    category: 'web',
+    categoryDisplay: 'Healthcare Website',
+    role: 'Full Stack Developer',
+    problem: 'Needed a trustworthy, modern online presence to showcase treatments, improve patient engagement, and provide a seamless appointment booking experience across all devices.',
+    description: 'Designed and developed a modern healthcare website for The Dental Project, a premium dental clinic in Mumbai. The website focuses on creating a trustworthy online presence, showcasing treatments and services, improving patient engagement, and providing a seamless appointment booking experience across all devices.',
+    businessValue: 'Created a professional digital presence for the clinic, improved user experience across desktop and mobile devices, and delivered an SEO-friendly website that makes it easy for patients to explore treatments and book appointments.',
+    gradient: 'from-blue-600/30 via-indigo-700/20 to-purple-900/40',
+    accent: '#3b82f6',
+    image: dentalProjectImg,
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'Bootstrap', 'MySQL'],
+    liveUrl: 'https://www.thedentalproject.in/',
+    caseStudyUrl: 'https://www.thedentalproject.in/',
+    featured: true,
+  },
   {
     id: 1,
     title: 'GameHub – AAA Gaming E-Commerce Marketplace',

@@ -67,21 +67,34 @@ function ProjectCard({ project }) {
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 rounded-xl bg-white/10 hover:bg-violet-600 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
-            aria-label={`View ${project.title} live demo`}
+            aria-label={`View ${project.title} live website`}
             tabIndex={hovered ? 0 : -1}
           >
-            <ExternalLink size={16} /> Demo
+            <ExternalLink size={16} /> Live Website
           </a>
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
-            aria-label={`View ${project.title} on GitHub`}
-            tabIndex={hovered ? 0 : -1}
-          >
-            <FiGithub size={16} /> Code
-          </a>
+          {project.githubUrl ? (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
+              aria-label={`View ${project.title} on GitHub`}
+              tabIndex={hovered ? 0 : -1}
+            >
+              <FiGithub size={16} /> Code
+            </a>
+          ) : (
+            <a
+              href={project.caseStudyUrl || project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
+              aria-label={`View ${project.title} case study`}
+              tabIndex={hovered ? 0 : -1}
+            >
+              <ExternalLink size={16} /> Case Study
+            </a>
+          )}
         </motion.div>
 
         {/* Featured badge */}
@@ -96,7 +109,7 @@ function ProjectCard({ project }) {
         {/* Category badge */}
         <div className="absolute top-3 right-3">
           <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold glass border border-white/10 text-white/70 capitalize">
-            {project.category}
+            {project.categoryDisplay || project.category}
           </span>
         </div>
       </div>
@@ -151,21 +164,34 @@ function ProjectCard({ project }) {
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/80 hover:text-white bg-violet-600/20 hover:bg-violet-600 border border-violet-500/30 transition-all duration-200"
-            aria-label={`Live demo of ${project.title}`}
+            aria-label={`Live website of ${project.title}`}
           >
             <ExternalLink size={13} />
-            Live Demo
+            Live Website
           </a>
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 transition-all duration-200"
-            aria-label={`GitHub repo of ${project.title}`}
-          >
-            <FiGithub size={13} />
-            GitHub
-          </a>
+          {project.githubUrl ? (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 transition-all duration-200"
+              aria-label={`GitHub repo of ${project.title}`}
+            >
+              <FiGithub size={13} />
+              GitHub
+            </a>
+          ) : (
+            <a
+              href={project.caseStudyUrl || project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 transition-all duration-200"
+              aria-label={`View case study of ${project.title}`}
+            >
+              <ExternalLink size={13} />
+              View Case Study
+            </a>
+          )}
         </div>
       </div>
     </motion.article>
