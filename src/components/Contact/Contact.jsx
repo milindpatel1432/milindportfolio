@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2, Sparkles } from 'lucide-react';
-import { FiGithub, FiLinkedin, FiTwitter, FiInstagram } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import Section, { SectionHeading } from '../../layouts/Section';
 import { contactInfo } from '../../utils/data';
 import { staggerContainer, fadeUp, fadeRight, viewportOnce } from '../../utils/animations';
@@ -12,8 +12,7 @@ const iconMap = { mail: Mail, phone: Phone, 'map-pin': MapPin };
 const socialLinks = [
   { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub', color: 'hover:text-white' },
   { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn', color: 'hover:text-blue-400' },
-  { href: 'https://twitter.com/milind', Icon: FiTwitter, label: 'Twitter', color: 'hover:text-sky-400' },
-  { href: 'https://instagram.com/milind', Icon: FiInstagram, label: 'Instagram', color: 'hover:text-pink-400' },
+  { href: 'https://instagram.com/its_milind_28', Icon: FiInstagram, label: 'Instagram', color: 'hover:text-pink-400' },
 ];
 
 const initialForm = { name: '', email: '', subject: '', message: '' };

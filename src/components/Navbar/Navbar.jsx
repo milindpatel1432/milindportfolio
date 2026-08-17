@@ -5,7 +5,7 @@ import { navLinks } from '../../utils/data';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { cn } from '../../utils/cn';
 import Button from '../Button/Button';
-import { FiGithub, FiLinkedin, FiTwitter } from 'react-icons/fi';
+import { FiGithub, FiLinkedin } from 'react-icons/fi';
 
 const sectionIds = navLinks.map((l) => l.id);
 
@@ -218,7 +218,6 @@ export default function Navbar() {
                   {[
                     { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub' },
                     { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn' },
-                    { href: 'https://twitter.com/milind', Icon: FiTwitter, label: 'Twitter' },
                   ].map(({ href, Icon, label }) => (
                     <a
                       key={label}

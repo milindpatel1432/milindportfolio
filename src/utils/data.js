@@ -1,5 +1,6 @@
 import gamehubHeroImg from '../assets/gamehub-hero.png';
 import dentalProjectImg from '../assets/thedentalproject.png';
+import shreeAgenciesImg from '../assets/shree-agencies.png';
 
 /**
  * All portfolio data — projects, skills, services, trust signals, nav links.
@@ -21,7 +22,6 @@ export const navLinks = [
 export const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/milindpatel1432', icon: 'github' },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/milind', icon: 'linkedin' },
-  { label: 'Twitter', href: 'https://twitter.com/milind', icon: 'twitter' },
   { label: 'Email', href: 'mailto:milindpatel1432@gmail.com', icon: 'mail' },
 ];
 
@@ -78,6 +78,24 @@ export const techStack = [
 ];
 
 export const projects = [
+  {
+    id: 'shree-agencies',
+    title: 'Shree Agencies',
+    category: 'web',
+    categoryDisplay: 'Business Website',
+    role: 'Full Stack Web Developer',
+    problem: 'Shree Agencies needed a modern online presence to showcase products and supplier information while facilitating customer enquiries across devices.',
+    description: 'Built a modern, fully responsive corporate website for Shree Agencies using HTML, CSS, JavaScript, jQuery, Bootstrap and PHP, with PHP Mailer integration for the enquiry form.',
+    businessValue: 'Created a professional digital presence for paper sourcing & supply business, facilitating client discovery and direct lead generation.',
+    gradient: 'from-rose-600/30 via-pink-700/20 to-purple-900/40',
+    accent: '#e11d48',
+    image: shreeAgenciesImg,
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'jQuery', 'Bootstrap', 'PHP', 'PHP Mailer'],
+    liveUrl: 'https://www.shreeagenciesmumbai.com/',
+    caseStudyUrl: '#shree-agencies',
+    hasCaseStudyModal: true,
+    featured: true,
+  },
   {
     id: 'dental-project',
     title: 'The Dental Project',
