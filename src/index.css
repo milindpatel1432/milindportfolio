@@ -22,12 +22,15 @@
     --color-text-subtle: rgba(255, 255, 255, 0.3);
   }
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
   html {
-    scroll-behavior: auto; /* Lenis handles this */
+    scroll-behavior: auto;
+    /* Lenis handles this */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -44,13 +47,16 @@
   ::-webkit-scrollbar {
     width: 6px;
   }
+
   ::-webkit-scrollbar-track {
     background: #0a0a0f;
   }
+
   ::-webkit-scrollbar-thumb {
     background: rgba(124, 58, 237, 0.4);
     border-radius: 3px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(124, 58, 237, 0.7);
   }
@@ -72,8 +78,13 @@
    Font Utilities
 ───────────────────────────────────────── */
 @layer utilities {
-  .font-outfit { font-family: var(--font-display); }
-  .font-inter  { font-family: var(--font-sans); }
+  .font-outfit {
+    font-family: var(--font-display);
+  }
+
+  .font-inter {
+    font-family: var(--font-sans);
+  }
 }
 
 /* ─────────────────────────────────────────
@@ -108,7 +119,7 @@
 @layer utilities {
   .glass {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.06);
   }
@@ -197,26 +208,74 @@
 }
 
 @keyframes aurora-drift-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-  33%       { transform: translate(80px, 60px) scale(1.1); opacity: 1; }
-  66%       { transform: translate(-40px, 100px) scale(0.9); opacity: 0.7; }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+
+  33% {
+    transform: translate(80px, 60px) scale(1.1);
+    opacity: 1;
+  }
+
+  66% {
+    transform: translate(-40px, 100px) scale(0.9);
+    opacity: 0.7;
+  }
 }
 
 @keyframes aurora-drift-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
-  40%       { transform: translate(-100px, -50px) scale(1.15); opacity: 0.9; }
-  70%       { transform: translate(50px, 80px) scale(0.95); opacity: 0.6; }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+
+  40% {
+    transform: translate(-100px, -50px) scale(1.15);
+    opacity: 0.9;
+  }
+
+  70% {
+    transform: translate(50px, 80px) scale(0.95);
+    opacity: 0.6;
+  }
 }
 
 @keyframes aurora-drift-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  50%       { transform: translate(60px, -80px) scale(1.2); opacity: 0.9; }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translate(60px, -80px) scale(1.2);
+    opacity: 0.9;
+  }
 }
 
 @keyframes aurora-drift-4 {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-  35%       { transform: translate(-50%, -50%) translate(120px, -60px) scale(1.1); opacity: 0.7; }
-  65%       { transform: translate(-50%, -50%) translate(-80px, 100px) scale(0.9); opacity: 0.4; }
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+
+  35% {
+    transform: translate(-50%, -50%) translate(120px, -60px) scale(1.1);
+    opacity: 0.7;
+  }
+
+  65% {
+    transform: translate(-50%, -50%) translate(-80px, 100px) scale(0.9);
+    opacity: 0.4;
+  }
 }
 
 /* ─────────────────────────────────────────
@@ -226,6 +285,7 @@
   .gradient-border-violet {
     position: relative;
   }
+
   .gradient-border-violet::before {
     content: '';
     position: absolute;
@@ -244,8 +304,13 @@
    Skill Bar Animation
 ───────────────────────────────────────── */
 @keyframes skill-fill {
-  from { width: 0%; }
-  to   { width: var(--skill-level); }
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: var(--skill-level);
+  }
 }
 
 .skill-bar-fill {
@@ -260,6 +325,7 @@
   .nav-link-active::after {
     transform: scaleX(1);
   }
+
   .nav-link::after {
     content: '';
     position: absolute;
@@ -278,8 +344,15 @@
    Floating Animation
 ───────────────────────────────────────── */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-12px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 .animate-float {
@@ -287,8 +360,15 @@
 }
 
 @keyframes float-delayed {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .animate-float-delayed {
@@ -299,8 +379,15 @@
    Pulse Glow (CTA button)
 ───────────────────────────────────────── */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(124, 58, 237, 0.15); }
-  50%       { box-shadow: 0 0 35px rgba(124, 58, 237, 0.6), 0 0 70px rgba(124, 58, 237, 0.25); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(124, 58, 237, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(124, 58, 237, 0.6), 0 0 70px rgba(124, 58, 237, 0.25);
+  }
 }
 
 .animate-pulse-glow {
@@ -311,8 +398,13 @@
    Marquee / Ticker
 ───────────────────────────────────────── */
 @keyframes marquee {
-  0%   { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -326,7 +418,7 @@
 ───────────────────────────────────────── */
 .section-separator {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 30%, rgba(124, 58, 237, 0.2) 50%, rgba(255,255,255,0.08) 70%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08) 30%, rgba(124, 58, 237, 0.2) 50%, rgba(255, 255, 255, 0.08) 70%, transparent);
 }
 
 /* ─────────────────────────────────────────
@@ -334,15 +426,16 @@
 ───────────────────────────────────────── */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 /* ─────────────────────────────────────────
    Lenis — prevent FOUC on scroll
 ───────────────────────────────────────── */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
