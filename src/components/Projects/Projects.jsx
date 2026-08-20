@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, AlertCircle, TrendingUp } from 'lucide-react';
+import { ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
-import Section, { SectionHeading } from '../../layouts/Section';
+import Section from '../../layouts/Section';
 import { projects, projectFilters } from '../../utils/data';
 import { fadeUp, viewportOnce } from '../../utils/animations';
 import { cn } from '../../utils/cn';
@@ -10,9 +10,9 @@ import Button from '../Button/Button';
 import ShreeAgenciesCaseStudy from '../CaseStudy/ShreeAgenciesCaseStudy';
 import GameHubCaseStudy from '../CaseStudy/GameHubCaseStudy';
 
-function ProjectCard({ project, onOpenCaseStudy }) {
+function FeaturedProjectItem({ project, index, onOpenCaseStudy }) {
   const [hovered, setHovered] = useState(false);
-
+  const isEven = index % 2 === 0;
   const isModalCaseStudy = project.hasCaseStudyModal || project.id === 'shree-agencies' || project.id === 'gamehub';
 
   const handleCaseStudyClick = (e) => {
@@ -24,205 +24,161 @@ function ProjectCard({ project, onOpenCaseStudy }) {
 
   return (
     <motion.article
-      layout
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={viewportOnce}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group relative flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden hover:border-violet-500/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-violet-950/30"
+      className="group relative py-8 lg:py-12 border-b border-white/[0.08] last:border-b-0"
       aria-label={`Project: ${project.title}`}
     >
-      {/* Image / Visual Header */}
-      <div className="relative h-48 overflow-hidden">
-        {/* Gradient BG as image placeholder */}
-        <div className={cn('absolute inset-0 bg-gradient-to-br', project.gradient)} />
+      <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        {/* ── Image Column (Alternates Left / Right on Desktop) ── */}
+        <div className={cn('lg:col-span-7 relative', isEven ? 'lg:order-1' : 'lg:order-2')}>
+          <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02] shadow-2xl group/img transition-all duration-500 hover:border-violet-500/40 hover:shadow-[0_0_40px_rgba(124,58,237,0.2)]">
+            
+            <div className="relative aspect-[16/10] overflow-hidden">
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={`${project.title} Preview`}
+                  className="w-full h-full object-cover object-top transform group-hover/img:scale-[1.03] transition-transform duration-700 ease-out"
+                />
+              ) : (
+                <div className={cn('w-full h-full bg-gradient-to-br flex items-center justify-center', project.gradient)}>
+                  <span className="text-8xl font-outfit font-black opacity-20 text-white select-none">
+                    {project.title.charAt(0)}
+                  </span>
+                </div>
+              )}
 
-        {/* Real Image or Initial fallback */}
-        {project.image ? (
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 relative z-0"
-          />
-        ) : (
-          <>
-            {/* Animated grid overlay */}
-            <div className="absolute inset-0 bg-grid opacity-30" aria-hidden="true" />
+              {/* Hover Dark Overlay & Quick Action Links */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] flex items-center justify-center gap-3 p-4 z-10">
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-xl bg-violet-600 text-white text-xs font-semibold shadow-lg shadow-violet-600/30 hover:bg-violet-500 transition-all flex items-center gap-1.5 transform hover:scale-105"
+                  aria-label={`Visit live site for ${project.title}`}
+                >
+                  <ExternalLink size={14} /> Live Website
+                </a>
 
-            {/* Project initial typography icon */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div
-                animate={{ scale: hovered ? 1.12 : 1, y: hovered ? -4 : 0 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="text-7xl font-outfit font-black opacity-30 select-none"
-                style={{ color: project.accent }}
-              >
-                {project.title.charAt(0)}
-              </motion.div>
+                {isModalCaseStudy ? (
+                  <button
+                    type="button"
+                    onClick={handleCaseStudyClick}
+                    className="px-4 py-2.5 rounded-xl glass border border-white/20 text-white text-xs font-semibold hover:bg-white/15 transition-all flex items-center gap-1.5 transform hover:scale-105 cursor-pointer"
+                    aria-label={`View case study for ${project.title}`}
+                  >
+                    View Case Study
+                  </button>
+                ) : project.githubUrl ? (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl glass border border-white/20 text-white text-xs font-semibold hover:bg-white/15 transition-all flex items-center gap-1.5 transform hover:scale-105"
+                    aria-label={`View ${project.title} on GitHub`}
+                  >
+                    <FiGithub size={14} /> GitHub
+                  </a>
+                ) : null}
+              </div>
             </div>
-          </>
-        )}
 
-        {/* Quick action hover overlay */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center gap-3 z-10"
-          aria-hidden={!hovered}
-        >
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 rounded-xl bg-white/10 hover:bg-violet-600 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
-            aria-label={`View ${project.title} live website`}
-            tabIndex={hovered ? 0 : -1}
-          >
-            <ExternalLink size={16} /> Live Website
-          </a>
-          {project.githubUrl ? (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
-              aria-label={`View ${project.title} on GitHub`}
-              tabIndex={hovered ? 0 : -1}
-            >
-              <FiGithub size={16} /> Code
-            </a>
-          ) : isModalCaseStudy ? (
-            <button
-              type="button"
-              onClick={handleCaseStudyClick}
-              className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium cursor-pointer"
-              aria-label={`View ${project.title} case study`}
-              tabIndex={hovered ? 0 : -1}
-            >
-              <ExternalLink size={16} /> Case Study
-            </button>
-          ) : (
-            <a
-              href={project.caseStudyUrl || project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all duration-200 hover:scale-110 flex items-center gap-1.5 text-xs font-medium"
-              aria-label={`View ${project.title} case study`}
-              tabIndex={hovered ? 0 : -1}
-            >
-              <ExternalLink size={16} /> Case Study
-            </a>
-          )}
-        </motion.div>
+          </div>
+        </div>
 
-        {/* Featured badge */}
-        {project.featured && (
-          <div className="absolute top-3 left-3 z-0">
-            <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-violet-600/90 text-white backdrop-blur-sm border border-violet-400/30">
-              ✦ Featured Full Stack Developer Project
+        {/* ── Content Column ── */}
+        <div className={cn('lg:col-span-5 flex flex-col items-start', isEven ? 'lg:order-2' : 'lg:order-1')}>
+          
+          {/* Header Metadata */}
+          <div className="flex flex-wrap items-center gap-3 mb-3">
+            <span className="font-mono text-sm font-bold text-violet-400 tracking-wider">
+              {project.number || `0${index + 1}`}
+            </span>
+
+            {project.isRealClient && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                REAL CLIENT PROJECT
+              </span>
+            )}
+
+            <span className="text-xs font-medium text-white/50 uppercase tracking-wider">
+              {project.categoryDisplay || project.category}
             </span>
           </div>
-        )}
 
-        {/* Category badge */}
-        <div className="absolute top-3 right-3 z-0">
-          <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold glass border border-white/10 text-white/70 capitalize">
-            {project.categoryDisplay || project.category}
-          </span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex flex-col flex-1 p-6 gap-4">
-        <div>
-          <h3 className="font-outfit font-bold text-xl text-white mb-2 group-hover:text-violet-300 transition-colors duration-300">
+          {/* Project Title */}
+          <h3 className="font-outfit font-bold text-2xl sm:text-3xl text-white mb-2 leading-snug group-hover:text-violet-300 transition-colors duration-300">
             {project.title}
           </h3>
-          <p className="text-xs text-white/60 leading-relaxed mb-3">
+
+          {/* Role Subtitle */}
+          {project.role && (
+            <p className="text-xs font-semibold text-violet-400/90 mb-3 tracking-wide uppercase">
+              Role: {project.role}
+            </p>
+          )}
+
+          {/* Short Description */}
+          <p className="text-white/65 text-sm sm:text-base leading-relaxed mb-6 font-normal">
             {project.description}
           </p>
 
-          {/* Problem Solved */}
-          {project.problem && (
-            <div className="mb-2 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04] flex items-start gap-2">
-              <AlertCircle size={14} className="text-amber-400 shrink-0 mt-0.5" />
-              <p className="text-[11px] text-white/50 leading-tight">
-                <strong className="text-white/70 font-medium">Problem: </strong>{project.problem}
-              </p>
-            </div>
-          )}
+          {/* Tech Badges */}
+          <div className="flex flex-wrap gap-1.5 mb-6">
+            {project.tech.map((t) => (
+              <span
+                key={t}
+                className="px-2.5 py-1 rounded-lg text-xs font-semibold glass border border-white/[0.08] text-white/70 hover:text-white hover:border-violet-500/30 transition-colors"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
 
-          {/* Business Impact / Value */}
-          {project.businessValue && (
-            <div className="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/10 flex items-start gap-2">
-              <TrendingUp size={14} className="text-emerald-400 shrink-0 mt-0.5" />
-              <p className="text-[11px] text-emerald-300/90 leading-tight">
-                <strong className="text-emerald-300 font-semibold">Impact: </strong>{project.businessValue}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Tech badges */}
-        <div className="flex flex-wrap gap-1.5 mt-auto">
-          {project.tech.map((t) => (
-            <span
-              key={t}
-              className="px-2 py-0.5 rounded-lg text-[11px] font-medium bg-white/[0.04] border border-white/[0.06] text-white/60 group-hover:border-violet-500/20 transition-colors duration-200"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-
-        {/* Action buttons */}
-        <div className="flex items-center gap-2 pt-3 border-t border-white/[0.05]">
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/80 hover:text-white bg-violet-600/20 hover:bg-violet-600 border border-violet-500/30 transition-all duration-200"
-            aria-label={`Live website of ${project.title}`}
-          >
-            <ExternalLink size={13} />
-            Live Website
-          </a>
-          {project.githubUrl ? (
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
-              href={project.githubUrl}
+              href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 transition-all duration-200"
-              aria-label={`GitHub repo of ${project.title}`}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 text-white text-xs font-semibold hover:bg-violet-500 shadow-lg shadow-violet-600/25 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              aria-label={`Visit live website for ${project.title}`}
             >
-              <FiGithub size={13} />
-              GitHub
+              <span>Live Website</span>
+              <ExternalLink size={14} />
             </a>
-          ) : isModalCaseStudy ? (
-            <button
-              type="button"
-              onClick={handleCaseStudyClick}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 transition-all duration-200 cursor-pointer"
-              aria-label={`View case study of ${project.title}`}
-            >
-              <ExternalLink size={13} />
-              View Case Study
-            </button>
-          ) : (
-            <a
-              href={project.caseStudyUrl || project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 transition-all duration-200"
-              aria-label={`View case study of ${project.title}`}
-            >
-              <ExternalLink size={13} />
-              View Case Study
-            </a>
-          )}
+
+            {isModalCaseStudy ? (
+              <button
+                type="button"
+                onClick={handleCaseStudyClick}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass border border-white/10 text-white/80 hover:text-white hover:bg-white/10 text-xs font-semibold transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                aria-label={`View case study for ${project.title}`}
+              >
+                <span>View Case Study</span>
+                <ArrowRight size={14} />
+              </button>
+            ) : project.githubUrl ? (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass border border-white/10 text-white/80 hover:text-white hover:bg-white/10 text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                aria-label={`View ${project.title} on GitHub`}
+              >
+                <FiGithub size={14} />
+                <span>GitHub</span>
+              </a>
+            ) : null}
+          </div>
+
         </div>
       </div>
     </motion.article>
@@ -244,31 +200,49 @@ export default function Projects() {
     };
   }, [activeCaseStudyId]);
 
-  const filtered =
+  const filteredProjects =
     activeFilter === 'All'
       ? projects
-      : projects.filter((p) => p.category === activeFilter.toLowerCase());
+      : projects.filter((p) => p.category.toLowerCase() === activeFilter.toLowerCase());
+
+  const handleScrollToContact = (e) => {
+    e.preventDefault();
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
-      <Section id="projects" label="Projects section">
-        {/* Heading */}
+      <Section id="projects" label="Projects section" className="py-16 md:py-20 lg:py-24 lg:min-h-0">
+        {/* Subtle ambient lighting */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-violet-600/10 blur-[130px] rounded-full pointer-events-none" aria-hidden="true" />
+
+        {/* ── Section Header & Filter Bar ── */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-10 lg:mb-12"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16 max-w-7xl mx-auto w-full relative z-10"
         >
-          <SectionHeading
-            eyebrow="Featured Case Studies"
-            title={<>Selected Full Stack<br /><span className="text-gradient-violet">projects & solutions</span></>}
-            subtitle="Real-world applications engineered to solve complex business problems with measurable results."
-          />
+          <div>
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-violet-400 mb-3 inline-flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+              SELECTED WORK
+            </span>
 
-          {/* Filter Tabs */}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-outfit text-white leading-tight mb-3 tracking-tight">
+              Things I've <span className="text-gradient-violet">Built.</span>
+            </h2>
+
+            <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
+              A selection of real-world websites and applications I've designed and developed.
+            </p>
+          </div>
+
+          {/* Minimal Pill Category Filter */}
           <div
-            className="flex items-center gap-2 flex-wrap shrink-0 md:mb-12 lg:mb-14"
+            className="flex items-center gap-2 flex-wrap shrink-0"
             role="tablist"
             aria-label="Project filters"
           >
@@ -279,7 +253,7 @@ export default function Projects() {
                 aria-selected={activeFilter === filter}
                 onClick={() => setActiveFilter(filter)}
                 className={cn(
-                  'px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 cursor-pointer',
+                  'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 cursor-pointer',
                   activeFilter === filter
                     ? 'bg-violet-600 text-white shadow-lg shadow-violet-500/25'
                     : 'glass border border-white/[0.06] text-white/50 hover:text-white hover:bg-white/5'
@@ -291,40 +265,53 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* Projects Grid */}
-        <motion.div
-          layout
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        {/* ── Editorial Featured Projects Showcase ── */}
+        <div className="max-w-7xl mx-auto w-full relative z-10 space-y-4">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
-              <ProjectCard
+            {filteredProjects.map((project, idx) => (
+              <FeaturedProjectItem
                 key={project.id}
                 project={project}
+                index={idx}
                 onOpenCaseStudy={(id) => setActiveCaseStudyId(id)}
               />
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
-        {/* View All CTA */}
+        {/* ── Final Section CTA ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
-          transition={{ delay: 0.3 }}
-          className="flex justify-center mt-8 lg:mt-10"
+          transition={{ duration: 0.6 }}
+          className="mt-16 md:mt-24 max-w-4xl mx-auto w-full relative z-10"
         >
-          <Button
-            href="https://github.com/milindpatel1432"
-            target="_blank"
-            variant="secondary"
-            size="lg"
-            icon={<FiGithub size={18} />}
-            aria-label="View all projects on GitHub"
-          >
-            Explore All Repositories on GitHub
-          </Button>
+          <div className="glass-card rounded-2xl p-8 sm:p-12 border border-white/10 gradient-border-violet text-center relative overflow-hidden shadow-2xl">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-violet-600/15 blur-3xl rounded-full pointer-events-none" aria-hidden="true" />
+
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-violet-400 mb-3 inline-block">
+              HAVE A PROJECT IN MIND?
+            </span>
+
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-outfit text-white mb-6">
+              Let's build something <span className="text-gradient-violet">great.</span>
+            </h3>
+
+            <div className="flex justify-center">
+              <Button
+                variant="glow"
+                size="lg"
+                onClick={handleScrollToContact}
+                icon={<Sparkles size={18} />}
+                iconPosition="right"
+                className="animate-pulse-glow hover:scale-105 transition-transform"
+                aria-label="Start a project with Milind"
+              >
+                Start a Project →
+              </Button>
+            </div>
+          </div>
         </motion.div>
       </Section>
 
@@ -342,3 +329,4 @@ export default function Projects() {
     </>
   );
 }
+

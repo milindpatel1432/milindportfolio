@@ -1,155 +1,107 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Code2, Server, Terminal } from 'lucide-react';
-import Section, { SectionHeading } from '../../layouts/Section';
-import { skillCategories, techStack } from '../../utils/data';
-import { fadeUp, viewportOnce } from '../../utils/animations';
-import { cn } from '../../utils/cn';
+import { motion } from 'framer-motion';
+import Section from '../../layouts/Section';
+import { staggerContainer, fadeUp, viewportOnce } from '../../utils/animations';
 
-const tagStyles = {
-  Expert: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  Advanced: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
-  Proficient: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
-};
-
-function SkillCard({ skill, delay }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={viewportOnce}
-      transition={{ delay, duration: 0.4 }}
-      className="group relative p-5 rounded-2xl glass border border-white/[0.06] hover:border-violet-500/30 hover:bg-white/[0.03] transition-all duration-300 flex flex-col justify-between"
-    >
-      <div>
-        <div className="flex items-center justify-between gap-3 mb-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
-              <CheckCircle2 size={16} />
-            </div>
-            <h4 className="font-outfit font-semibold text-white text-base group-hover:text-violet-300 transition-colors">
-              {skill.name}
-            </h4>
-          </div>
-          <span className={cn('px-2.5 py-0.5 rounded-full text-[11px] font-semibold border', tagStyles[skill.tag] ?? tagStyles.Proficient)}>
-            {skill.tag}
-          </span>
-        </div>
-        <p className="text-xs text-white/45 leading-relaxed">
-          {skill.desc}
-        </p>
-      </div>
-
-      {/* Ambient bottom glow line */}
-      <div className="mt-4 pt-3 border-t border-white/[0.04] flex items-center gap-2 text-[11px] text-white/30">
-        <span className="w-1.5 h-1.5 rounded-full bg-violet-400/60" />
-        <span>Production Tested</span>
-      </div>
-    </motion.div>
-  );
-}
+const skillGroups = [
+  {
+    num: '01',
+    category: 'FRONTEND',
+    desc: 'Building responsive interfaces with modern component-based tools.',
+    skills: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Bootstrap'],
+  },
+  {
+    num: '02',
+    category: 'BACKEND & DATABASE',
+    desc: 'Engineering robust server-side applications and data architectures.',
+    skills: ['Node.js', 'Express.js', 'PHP', 'MongoDB', 'MySQL'],
+  },
+  {
+    num: '03',
+    category: 'CMS & WORKFLOW',
+    desc: 'Streamlining client content systems and modern development workflows.',
+    skills: ['WordPress', 'Git', 'GitHub', 'REST APIs', 'Responsive Design', 'SEO'],
+  },
+];
 
 export default function Skills() {
-  const [activeTab, setActiveTab] = useState('frontend');
-
-  const activeCategory = skillCategories.find((c) => c.id === activeTab);
-
   return (
-    <Section id="skills" label="Skills section">
-      {/* Heading */}
+    <Section id="skills" label="Skills section" className="py-12 md:py-16 lg:py-20 lg:min-h-0">
+      {/* Abstract technical background accent */}
+      <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" aria-hidden="true" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-violet-600/10 blur-[120px] rounded-full pointer-events-none" aria-hidden="true" />
+
       <motion.div
-        variants={fadeUp}
+        variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="text-center"
+        className="relative z-10 max-w-7xl mx-auto w-full"
       >
-        <SectionHeading
-          eyebrow="Technical Stack"
-          title={<>Core technologies &<br /><span className="text-gradient-violet">development capabilities</span></>}
-          subtitle="A battle-tested tech stack focused on building fast, scalable, and secure applications."
-          center
-        />
-      </motion.div>
+        {/* ── Section Header ── */}
+        <motion.div variants={fadeUp} className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-violet-400 mb-3 inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+            TECH STACK
+          </span>
 
-      {/* Category Tabs */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={viewportOnce}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="flex items-center justify-center gap-2 mb-8 md:mb-10 flex-wrap"
-        role="tablist"
-        aria-label="Skill categories"
-      >
-        {skillCategories.map((cat) => (
-          <button
-            key={cat.id}
-            role="tab"
-            aria-selected={activeTab === cat.id}
-            onClick={() => setActiveTab(cat.id)}
-            className={cn(
-              'px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 flex items-center gap-2',
-              activeTab === cat.id
-                ? 'bg-violet-600 text-white shadow-lg shadow-violet-500/25'
-                : 'glass border border-white/[0.06] text-white/50 hover:text-white hover:bg-white/5'
-            )}
-          >
-            {cat.id === 'frontend' && <Code2 size={16} />}
-            {cat.id === 'backend' && <Server size={16} />}
-            {cat.id === 'tools' && <Terminal size={16} />}
-            {cat.label}
-          </button>
-        ))}
-      </motion.div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-outfit text-white leading-tight mb-4 tracking-tight">
+            Tools I Use{' '}
+            <span className="text-gradient-violet block sm:inline">
+              to Build for the Web.
+            </span>
+          </h2>
 
-      {/* Skill Cards Grid (Replacing arbitrary progress bars) */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.35 }}
-          role="tabpanel"
-          aria-label={`${activeCategory?.label} skills`}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 lg:mb-12"
-        >
-          {activeCategory?.skills.map((skill, i) => (
-            <SkillCard
-              key={skill.name}
-              skill={skill}
-              delay={i * 0.06}
-            />
-          ))}
+          <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-normal">
+            From frontend interfaces to backend systems, I use a focused modern stack to build responsive and scalable web applications.
+          </p>
         </motion.div>
-      </AnimatePresence>
 
-      {/* Tech Stack Marquee Ticker */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={viewportOnce}
-        transition={{ duration: 0.6 }}
-        className="border-t border-white/[0.06] pt-6 lg:pt-8"
-      >
-        <p className="text-center text-xs font-semibold tracking-[0.2em] uppercase text-white/30 mb-4 md:mb-6">
-          Full Stack & Ecosystem Tools
-        </p>
-        <div className="overflow-hidden mask-gradient-x">
-          <div className="animate-marquee">
-            {[...techStack, ...techStack].map((tech, i) => (
-              <span
-                key={`${tech}-${i}`}
-                className="inline-flex items-center gap-2 mx-6 text-sm font-medium text-white/40 hover:text-white transition-colors duration-200 shrink-0"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-500/60" aria-hidden="true" />
-                {tech}
-              </span>
-            ))}
-          </div>
+        {/* ── 3 Skill Category Cards ── */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {skillGroups.map((group) => (
+            <motion.div
+              key={group.category}
+              variants={fadeUp}
+              className="group relative p-6 sm:p-7 rounded-2xl glass-card border border-white/[0.08] hover:border-violet-500/40 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-[0_12px_35px_rgba(124,58,237,0.15)]"
+            >
+              {/* Subtle top accent gradient line on hover */}
+              <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
+
+              <div>
+                {/* Category Header: Number + Name */}
+                <div className="flex items-baseline justify-between mb-4">
+                  <span className="font-mono text-3xl sm:text-4xl font-extrabold text-violet-400/40 group-hover:text-violet-400 transition-colors duration-300">
+                    {group.num}
+                  </span>
+                  <span className="text-xs font-bold tracking-[0.18em] uppercase text-white/50 group-hover:text-violet-300 transition-colors duration-300">
+                    {group.category}
+                  </span>
+                </div>
+
+                {/* Short One-line Description */}
+                <p className="text-xs sm:text-sm text-white/55 leading-relaxed mb-6 font-normal">
+                  {group.desc}
+                </p>
+              </div>
+
+              {/* Technology Pills */}
+              <div className="pt-4 border-t border-white/[0.06]">
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold glass border border-white/[0.08] text-white/80 hover:text-white hover:border-violet-500/40 hover:bg-violet-500/15 hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
     </Section>
   );
 }
+
