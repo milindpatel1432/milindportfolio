@@ -69,12 +69,12 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center">
 
-          {/* ── Left Column ── */}
+          {/* ── Left Column (Text) ── */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="flex flex-col gap-4 md:gap-5"
+            className="flex flex-col gap-4 md:gap-5 order-2 lg:order-1"
           >
             {/* Availability Badge */}
             <motion.div variants={fadeUp} className="flex items-center gap-2">
@@ -190,12 +190,12 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* ── Right Column — Visual Composition ── */}
+          {/* ── Right Column — Visual Composition (Avatar Image) ── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
-            className="relative flex items-center justify-center lg:justify-end mt-4 lg:mt-0"
+            className="relative flex items-center justify-center lg:justify-end my-4 lg:my-0 order-1 lg:order-2"
             style={{
               transform: `translate(${mousePos.x * -0.8}px, ${mousePos.y * -0.8}px)`,
             }}
