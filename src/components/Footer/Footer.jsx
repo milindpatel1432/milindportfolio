@@ -109,10 +109,10 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="section-separator mb-6" aria-hidden="true" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30 text-center sm:text-left">
-            © {new Date().getFullYear()} Milind. All rights reserved.
+          <p className="text-xs text-white/40 text-center sm:text-left">
+            © {new Date().getFullYear()} Milind. All rights reserved. <span className="hidden sm:inline text-white/20">•</span> <span className="text-white/60 font-medium">Crafted by Milind Patel</span>
           </p>
-          <p className="text-xs text-white/30">
+          <p className="text-xs text-white/40">
             Engineered with React, Vite & Tailwind CSS
           </p>
         </div>
