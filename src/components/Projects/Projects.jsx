@@ -310,12 +310,12 @@ export default function Projects() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-outfit text-white leading-tight tracking-tight mb-3">
-              Projects that <br className="hidden sm:inline" />
-              <span className="text-gradient-violet">speak for themselves.</span>
+              Built with purpose. <br className="hidden sm:inline" />
+              <span className="text-gradient-violet">Designed to perform.</span>
             </h2>
 
-            <p className="text-white/60 text-sm sm:text-base font-normal max-w-lg">
-              Real-world websites and applications built with modern technologies.
+            <p className="text-white/60 text-sm sm:text-base font-normal leading-relaxed max-w-xl">
+              Real-world websites and digital experiences built for businesses, brands, and ambitious ideas.
             </p>
           </div>
 
