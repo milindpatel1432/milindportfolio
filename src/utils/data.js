@@ -12,7 +12,6 @@ export const navLinks = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
-  { id: 'why-me', label: 'Why Me' },
   { id: 'process', label: 'Process' },
   { id: 'guarantee', label: 'Trust' },
   { id: 'contact', label: 'Contact' },

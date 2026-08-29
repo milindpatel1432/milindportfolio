@@ -1,266 +1,60 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
-import Section from '../../layouts/Section';
-import { projects, projectFilters } from '../../utils/data';
-import { fadeUp, viewportOnce } from '../../utils/animations';
+import { projects } from '../../utils/data';
 import { cn } from '../../utils/cn';
-import Button from '../Button/Button';
 import ShreeAgenciesCaseStudy from '../CaseStudy/ShreeAgenciesCaseStudy';
 import GameHubCaseStudy from '../CaseStudy/GameHubCaseStudy';
 
-/**
- * Minimal Premium CTA Link with arrow & underline interaction
- */
-function MinimalCTA({ href, onClick, label, isExternal = false, isGithub = false }) {
-  const content = (
-    <>
-      <span className="relative">
-        {label}
-        <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-gradient-to-r from-violet-400 to-indigo-400 group-hover/link:w-full transition-all duration-300 ease-out" />
-      </span>
-      {isGithub ? (
-        <FiGithub size={13} className="transform group-hover/link:rotate-12 transition-transform duration-300 text-violet-400" />
-      ) : isExternal ? (
-        <ArrowUpRight size={14} className="transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300 text-violet-400" />
-      ) : (
-        <ArrowRight size={14} className="transform group-hover/link:translate-x-1 transition-transform duration-300 text-violet-400" />
-      )}
-    </>
-  );
+export default function Projects() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // 1 = next, -1 = prev
+  const [activeCaseStudyId, setActiveCaseStudyId] = useState(null);
+  const containerRef = useRef(null);
+  const isWheelLockedRef = useRef(false);
 
-  const className = "group/link inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white/90 hover:text-white transition-colors duration-300 py-1 cursor-pointer select-none";
+  const totalProjects = projects.length;
+  const currentProject = projects[currentIndex] || projects[0];
 
-  if (href && isExternal) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={className}
-        aria-label={label}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <button type="button" onClick={onClick} className={className} aria-label={label}>
-      {content}
-    </button>
-  );
-}
-
-/**
- * Motion variants for coordinated project reveals
- */
-const posterContainerVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.1,
+  const paginate = useCallback(
+    (newDirection) => {
+      if (totalProjects <= 1) return;
+      setDirection(newDirection);
+      setCurrentIndex((prev) => {
+        if (newDirection === 1) {
+          return prev < totalProjects - 1 ? prev + 1 : 0;
+        } else {
+          return prev > 0 ? prev - 1 : totalProjects - 1;
+        }
+      });
     },
-  },
-};
+    [totalProjects]
+  );
 
-const imageRevealVariants = {
-  hidden: { opacity: 0, scale: 0.97, y: 20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const panelSlideVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const techVariants = {
-  hidden: { opacity: 0, y: 6 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3 },
-  },
-};
-
-function FeaturedProjectPoster({ project, index, onOpenCaseStudy }) {
-  const isEven = index % 2 === 0;
-  const isModalCaseStudy = project.hasCaseStudyModal || project.id === 'shree-agencies' || project.id === 'gamehub';
-
-  const handleCaseStudyClick = (e) => {
-    if (isModalCaseStudy) {
-      e?.preventDefault();
-      onOpenCaseStudy(project.id);
-    }
+  const goToSlide = (idx) => {
+    if (idx === currentIndex) return;
+    setDirection(idx > currentIndex ? 1 : -1);
+    setCurrentIndex(idx);
   };
 
-  return (
-    <motion.article
-      variants={posterContainerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewportOnce}
-      className="relative mb-20 lg:mb-32 last:mb-12 max-w-7xl mx-auto w-full group"
-      aria-label={`Project: ${project.title}`}
-    >
-      {/* ── Background Decorative Low-Opacity Number ── */}
-      <span
-        className={cn(
-          "absolute font-outfit text-8xl sm:text-9xl lg:text-[180px] font-black text-white/[0.04] select-none pointer-events-none z-0 tracking-tighter leading-none -top-10 sm:-top-14",
-          isEven ? "left-0 sm:left-4" : "right-0 sm:right-4"
-        )}
-        aria-hidden="true"
-      >
-        {project.number || `0${index + 1}`}
-      </span>
+  // Keyboard Navigation (Arrow keys)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (activeCaseStudyId) return;
 
-      <div className="relative z-10">
-        {/* ── Asymmetric Layout Grid ── */}
-        <div className="relative flex flex-col lg:block">
+      if (e.key === 'ArrowRight') {
+        paginate(1);
+      } else if (e.key === 'ArrowLeft') {
+        paginate(-1);
+      }
+    };
 
-          {/* ── 1. Screenshot Image Container (~70-75% visual attention on Desktop) ── */}
-          <motion.div
-            variants={imageRevealVariants}
-            className={cn(
-              "relative w-full lg:w-[72%] xl:w-[75%] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-[#0d0916] shadow-2xl transition-all duration-700 shadow-[0_0_50px_rgba(124,58,237,0.12)] group-hover:shadow-[0_0_75px_rgba(124,58,237,0.22)] group-hover:border-white/20",
-              isEven ? "lg:ml-auto" : "lg:mr-auto"
-            )}
-          >
-            {/* Real Client Project Badge (Floating inside screenshot) */}
-            {project.isRealClient && (
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0a0a0f]/85 backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-[11px] font-bold uppercase tracking-wider shadow-xl shadow-black/50">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-                REAL CLIENT PROJECT
-              </div>
-            )}
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [paginate, activeCaseStudyId]);
 
-            {/* Screenshot Display */}
-            <div className="relative aspect-[16/10] sm:aspect-[16/9.5] overflow-hidden bg-slate-950">
-              {project.image ? (
-                <img
-                  src={project.image}
-                  alt={`${project.title} Screenshot Preview`}
-                  loading="lazy"
-                  className="w-full h-full object-cover object-top transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:brightness-[1.04]"
-                />
-              ) : (
-                <div className={cn("w-full h-full bg-gradient-to-br flex items-center justify-center", project.gradient)}>
-                  <span className="text-8xl font-outfit font-black opacity-20 text-white select-none">
-                    {project.title.charAt(0)}
-                  </span>
-                </div>
-              )}
-
-              {/* Soft Gradient Bottom Edge for Depth */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/60 via-transparent to-transparent pointer-events-none" />
-            </div>
-          </motion.div>
-
-          {/* ── 2. Floating Info Panel (Overlaps lower portion of screenshot on Desktop) ── */}
-          <motion.div
-            variants={panelSlideVariants}
-            className={cn(
-              "relative z-20 w-full mt-4 lg:mt-0 lg:absolute lg:bottom-4 lg:w-[460px] xl:w-[500px]",
-              isEven ? "lg:left-0" : "lg:right-0"
-            )}
-          >
-            <div className="bg-[#0d091a]/90 backdrop-blur-xl border border-white/15 p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.7)] group-hover:border-violet-500/35 transition-all duration-500">
-              
-              {/* Top Meta Row */}
-              <div className="flex items-center justify-between gap-3 mb-3">
-                <span className="font-mono text-xs font-bold text-violet-400 tracking-widest uppercase">
-                  {project.number || `0${index + 1}`}
-                </span>
-
-                <span className="text-[11px] font-semibold text-white/60 uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08]">
-                  {project.categoryDisplay || project.category}
-                </span>
-              </div>
-
-              {/* Title */}
-              <h3 className="font-outfit text-2xl sm:text-3xl font-bold text-white mb-1 tracking-tight group-hover:text-violet-200 transition-colors duration-300">
-                {project.title}
-              </h3>
-
-              {/* Role Subtitle */}
-              {project.role && (
-                <p className="text-[11px] font-bold text-violet-400 uppercase tracking-widest mb-3">
-                  Role: {project.role}
-                </p>
-              )}
-
-              {/* Description Quote */}
-              <p className="text-white/75 text-xs sm:text-sm leading-relaxed mb-5 font-normal italic border-l-2 border-violet-500/40 pl-3 py-0.5">
-                "{project.description}"
-              </p>
-
-              {/* Tech Stack Pills */}
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {project.tech.map((t) => (
-                  <motion.span
-                    key={t}
-                    variants={techVariants}
-                    className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-white/[0.04] border border-white/[0.08] text-white/70 hover:text-white hover:border-violet-500/30 transition-colors"
-                  >
-                    {t}
-                  </motion.span>
-                ))}
-              </div>
-
-              {/* Minimal CTAs Row */}
-              <div className="flex flex-wrap items-center gap-6 pt-3 border-t border-white/[0.08]">
-                {project.liveUrl && (
-                  <MinimalCTA
-                    href={project.liveUrl}
-                    label="View Live Website"
-                    isExternal={true}
-                  />
-                )}
-
-                {isModalCaseStudy ? (
-                  <MinimalCTA
-                    onClick={handleCaseStudyClick}
-                    label="View Case Study"
-                    isExternal={false}
-                  />
-                ) : project.githubUrl ? (
-                  <MinimalCTA
-                    href={project.githubUrl}
-                    label="View GitHub Code"
-                    isExternal={true}
-                    isGithub={true}
-                  />
-                ) : null}
-              </div>
-
-            </div>
-          </motion.div>
-
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState('ALL');
-  const [activeCaseStudyId, setActiveCaseStudyId] = useState(null);
-
+  // Lock body scroll when case study modal is open
   useEffect(() => {
     if (activeCaseStudyId) {
       document.body.style.overflow = 'hidden';
@@ -272,143 +66,299 @@ export default function Projects() {
     };
   }, [activeCaseStudyId]);
 
-  // Filter normalization
-  const filterKey = activeFilter.toLowerCase();
-  
-  const filteredProjects = projects.filter((p) => {
-    if (filterKey === 'all') return true;
-    return p.category.toLowerCase() === filterKey;
-  });
+  // Smart Mouse Wheel Handler with throttle
+  const handleWheel = (e) => {
+    if (activeCaseStudyId || totalProjects <= 1) return;
 
-  const handleScrollToContact = (e) => {
-    e.preventDefault();
-    const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (isWheelLockedRef.current) return;
+
+    if (e.deltaY > 40) {
+      if (currentIndex < totalProjects - 1) {
+        e.preventDefault();
+        paginate(1);
+        isWheelLockedRef.current = true;
+        setTimeout(() => {
+          isWheelLockedRef.current = false;
+        }, 700);
+      }
+    } else if (e.deltaY < -40) {
+      if (currentIndex > 0) {
+        e.preventDefault();
+        paginate(-1);
+        isWheelLockedRef.current = true;
+        setTimeout(() => {
+          isWheelLockedRef.current = false;
+        }, 700);
+      }
+    }
   };
+
+  const slideVariants = {
+    enter: (dir) => ({
+      x: dir > 0 ? '12%' : '-12%',
+      opacity: 0,
+      scale: 0.96,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+    exit: (dir) => ({
+      x: dir < 0 ? '12%' : '-12%',
+      opacity: 0,
+      scale: 0.96,
+      transition: {
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
+
+  const isModalCaseStudy = currentProject?.hasCaseStudyModal || currentProject?.id === 'shree-agencies' || currentProject?.id === 'gamehub';
 
   return (
     <>
-      <Section id="projects" label="Projects section" className="py-16 md:py-24 lg:py-32 lg:min-h-0 relative overflow-hidden">
-        
-        {/* Ambient background lighting */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-violet-600/10 blur-[140px] rounded-full pointer-events-none" aria-hidden="true" />
-        <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none" aria-hidden="true" />
+      <section
+        id="projects"
+        ref={containerRef}
+        aria-label="Projects showcase slider"
+        onWheel={handleWheel}
+        className="relative w-full min-h-screen lg:min-h-screen flex flex-col justify-between pt-16 sm:pt-20 pb-6 sm:pb-8 px-4 sm:px-8 lg:px-16 xl:px-24 bg-[#0a0a0f] text-white select-none overflow-hidden"
+      >
+        {/* Background ambient lighting */}
+        <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[600px] h-[400px] bg-violet-600/12 blur-[140px] rounded-full pointer-events-none z-0" aria-hidden="true" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[350px] bg-indigo-600/10 blur-[130px] rounded-full pointer-events-none z-0" aria-hidden="true" />
 
-        {/* ── 1. SECTION INTRO & 2. NAVIGATION ── */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-24 max-w-7xl mx-auto w-full relative z-10"
-        >
-          {/* Header text */}
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.25em] uppercase text-violet-400 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.8)]" />
-              SELECTED WORK / 01
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-outfit text-white leading-tight tracking-tight mb-3">
-              Built with purpose. <br className="hidden sm:inline" />
-              <span className="text-gradient-violet">Designed to perform.</span>
-            </h2>
-
-            <p className="text-white/60 text-sm sm:text-base font-normal leading-relaxed max-w-xl">
-              Real-world websites and digital experiences built for businesses, brands, and ambitious ideas.
-            </p>
+        {/* ── UNIFORM SECTION HEADER (Eyebrow + Title + Subtitle) ── */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full mb-3 sm:mb-4 shrink-0">
+          {/* Eyebrow Label */}
+          <div className="text-xs font-semibold tracking-[0.2em] uppercase text-violet-400 mb-1.5 sm:mb-2 inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.8)]" />
+            SELECTED WORK / 0{currentIndex + 1}
           </div>
 
-          {/* Minimal Horizontal Filter Bar */}
-          <div
-            className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md shrink-0 self-start md:self-auto"
-            role="tablist"
-            aria-label="Project category filters"
-          >
-            {projectFilters.map((filter) => {
-              const uppercaseFilter = filter.toUpperCase();
-              const isActive = activeFilter === uppercaseFilter || (activeFilter === 'ALL' && filter === 'All');
+          {/* Section Title */}
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-outfit text-white mb-1.5 sm:mb-2 leading-tight tracking-tight">
+            Built with purpose. <span className="text-gradient-violet">Designed to perform.</span>
+          </h2>
 
-              return (
-                <button
-                  key={filter}
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActiveFilter(uppercaseFilter)}
-                  className={cn(
-                    "relative px-4 py-2 rounded-xl text-xs font-bold tracking-wider uppercase transition-colors duration-300 focus:outline-none cursor-pointer z-10 select-none",
-                    isActive ? "text-white" : "text-white/50 hover:text-white/80"
-                  )}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeFilterGlow"
-                      className="absolute inset-0 rounded-xl bg-violet-600/30 border border-violet-500/50 shadow-[0_0_20px_rgba(124,58,237,0.4)] z-[-1]"
-                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
+          {/* Section Subtitle / Description */}
+          <p className="text-white/50 text-xs sm:text-sm md:text-base font-normal leading-relaxed max-w-2xl">
+            Real-world websites and digital experiences built for businesses, brands, and ambitious ideas.
+          </p>
+        </div>
+
+        {/* ── MAIN CINEMATIC SLIDER CONTENT ── */}
+        <div className="relative z-10 flex-1 flex items-center justify-center max-w-7xl mx-auto w-full my-auto py-2 sm:py-4">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            {currentProject && (
+              <motion.div
+                key={currentProject.id}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = offset.x;
+                  if (swipe < -50 || velocity.x < -300) {
+                    paginate(1);
+                  } else if (swipe > 50 || velocity.x > 300) {
+                    paginate(-1);
+                  }
+                }}
+                className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 xl:gap-12 items-center cursor-grab active:cursor-grabbing"
+              >
+                {/* ── LEFT COLUMN: LARGE SCREENSHOT (~60% width on Desktop) ── */}
+                <div className="lg:col-span-7 xl:col-span-7 relative group">
+                  <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 bg-[#0d0916] shadow-[0_0_50px_rgba(124,58,237,0.15)] group-hover:shadow-[0_0_75px_rgba(124,58,237,0.28)] group-hover:border-violet-500/40 transition-all duration-500">
+                    
+                    {/* Real Client Badge */}
+                    {currentProject.isRealClient && (
+                      <div className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 z-20 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0a0a0f]/85 backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                        REAL CLIENT PROJECT
+                      </div>
+                    )}
+
+                    {/* Screenshot Container */}
+                    <div className="relative aspect-[16/10] sm:aspect-[16/9.5] lg:aspect-[16/9.5] max-h-[360px] sm:max-h-[420px] overflow-hidden bg-slate-950">
+                      {currentProject.image ? (
+                        <img
+                          src={currentProject.image}
+                          alt={`${currentProject.title} Preview`}
+                          className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                        />
+                      ) : (
+                        <div className={cn("w-full h-full bg-gradient-to-br flex items-center justify-center", currentProject.gradient)}>
+                          <span className="text-8xl font-outfit font-black opacity-20 text-white select-none">
+                            {currentProject.title.charAt(0)}
+                          </span>
+                        </div>
+                      )}
+                      
+                      {/* Subtle ambient bottom gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/70 via-transparent to-transparent pointer-events-none" />
+                    </div>
+                  </div>
+
+                  {/* Next Project Peek Hint */}
+                  {totalProjects > 1 && (
+                    <div
+                      onClick={() => paginate(1)}
+                      aria-label="Next project preview"
+                      className="hidden xl:block absolute -right-6 top-1/2 -translate-y-1/2 w-4 h-3/4 rounded-r-xl bg-violet-600/10 border-r border-violet-500/20 opacity-40 hover:opacity-100 transition-opacity cursor-pointer pointer-events-auto"
+                      title="Next Project"
                     />
                   )}
-                  {uppercaseFilter}
-                </button>
-              );
-            })}
-          </div>
-        </motion.div>
+                </div>
 
-        {/* ── 3. FEATURED PROJECT POSTERS SHOWCASE ── */}
-        <div className="max-w-7xl mx-auto w-full relative z-10">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.length > 0 ? (
-              filteredProjects.map((project, idx) => (
-                <FeaturedProjectPoster
-                  key={project.id}
-                  project={project}
-                  index={idx}
-                  onOpenCaseStudy={(id) => setActiveCaseStudyId(id)}
-                />
-              ))
-            ) : (
-              <div className="text-center py-16 text-white/40 font-mono text-sm">
-                No projects found in this category.
-              </div>
+                {/* ── RIGHT COLUMN: PROJECT DETAILS (~40% width on Desktop) ── */}
+                <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center text-left">
+                  {/* Meta badge & number */}
+                  <div className="flex items-center gap-3 mb-1.5 sm:mb-2">
+                    <span className="font-mono text-xs font-bold text-violet-400 tracking-widest uppercase">
+                      {currentProject.number || `0${currentIndex + 1}`}
+                    </span>
+                    <span className="text-[11px] font-bold text-white/60 uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08]">
+                      {currentProject.categoryDisplay || currentProject.category}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="font-outfit text-2xl sm:text-3xl lg:text-4xl xl:text-4xl font-bold text-white tracking-tight leading-tight mb-1 sm:mb-1.5">
+                    {currentProject.title}
+                  </h3>
+
+                  {/* Role */}
+                  {currentProject.role && (
+                    <p className="text-[11px] font-bold text-violet-400 uppercase tracking-widest mb-2 sm:mb-3">
+                      Role: {currentProject.role}
+                    </p>
+                  )}
+
+                  {/* Description */}
+                  <p className="text-white/75 text-xs sm:text-sm lg:text-base leading-relaxed font-normal italic border-l-2 border-violet-500/40 pl-3.5 mb-3 sm:mb-4">
+                    "{currentProject.description}"
+                  </p>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-5">
+                    {currentProject.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[10px] sm:text-[11px] font-medium bg-white/[0.04] border border-white/[0.08] text-white/70 hover:text-white hover:border-violet-500/30 transition-colors"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* CTA Buttons */}
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-5 pt-3 sm:pt-4 border-t border-white/[0.08]">
+                    {currentProject.liveUrl && (
+                      <a
+                        href={currentProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-xs sm:text-sm tracking-wide transition-all shadow-[0_0_20px_rgba(124,58,237,0.4)] hover:shadow-[0_0_30px_rgba(124,58,237,0.6)] hover:scale-[1.02]"
+                      >
+                        View Live Website
+                        <ArrowUpRight size={15} />
+                      </a>
+                    )}
+
+                    {isModalCaseStudy ? (
+                      <button
+                        type="button"
+                        onClick={() => setActiveCaseStudyId(currentProject.id)}
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-white font-semibold text-xs sm:text-sm tracking-wide transition-all hover:scale-[1.02] cursor-pointer"
+                      >
+                        View Case Study
+                        <ArrowRight size={15} className="text-violet-400" />
+                      </button>
+                    ) : currentProject.githubUrl ? (
+                      <a
+                        href={currentProject.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-white font-semibold text-xs sm:text-sm tracking-wide transition-all hover:scale-[1.02]"
+                      >
+                        <FiGithub size={15} className="text-violet-400" />
+                        GitHub Code
+                      </a>
+                    ) : null}
+                  </div>
+
+                </div>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* ── SECTION CTA ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={viewportOnce}
-          transition={{ duration: 0.6 }}
-          className="mt-24 max-w-4xl mx-auto w-full relative z-10"
-        >
-          <div className="glass-card rounded-2xl sm:rounded-3xl p-8 sm:p-12 border border-white/10 text-center relative overflow-hidden shadow-2xl">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-violet-600/15 blur-3xl rounded-full pointer-events-none" aria-hidden="true" />
-
-            <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-violet-400 mb-3 inline-block">
-              HAVE A PROJECT IN MIND?
+        {/* ── BOTTOM SLIDER NAVIGATION CONTROLS ── */}
+        <div className="relative z-10 flex items-center justify-between max-w-7xl mx-auto w-full pt-4 sm:pt-5 border-t border-white/[0.08] shrink-0">
+          
+          {/* Progress Indicator + Counter */}
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs sm:text-sm font-bold text-white/90 tracking-widest">
+              0{currentIndex + 1} <span className="text-white/40 font-normal">/ 0{totalProjects}</span>
             </span>
 
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-outfit text-white mb-6">
-              Let's build something <span className="text-gradient-violet">great.</span>
-            </h3>
-
-            <div className="flex justify-center">
-              <Button
-                variant="glow"
-                size="lg"
-                onClick={handleScrollToContact}
-                icon={<Sparkles size={18} />}
-                iconPosition="right"
-                className="animate-pulse-glow hover:scale-105 transition-transform"
-                aria-label="Start a project with Milind"
-              >
-                Start a Project →
-              </Button>
+            {/* Interactive Progress Line Segments */}
+            <div className="hidden sm:flex items-center gap-2">
+              {projects.map((proj, idx) => (
+                <button
+                  key={proj.id}
+                  onClick={() => goToSlide(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                  className="group py-2 cursor-pointer focus:outline-none"
+                >
+                  <div
+                    className={cn(
+                      "h-1 rounded-full transition-all duration-300",
+                      idx === currentIndex
+                        ? "w-10 sm:w-14 bg-violet-500 shadow-[0_0_12px_rgba(167,139,250,0.8)]"
+                        : "w-4 sm:w-6 bg-white/20 group-hover:bg-white/40"
+                    )}
+                  />
+                </button>
+              ))}
             </div>
           </div>
-        </motion.div>
-      </Section>
+
+          {/* Navigation Arrows */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => paginate(-1)}
+              disabled={totalProjects <= 1}
+              aria-label="Previous project slide"
+              className="p-2.5 sm:p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-violet-600/30 hover:border-violet-500/40 text-white/80 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer focus:outline-none"
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            <button
+              onClick={() => paginate(1)}
+              disabled={totalProjects <= 1}
+              aria-label="Next project slide"
+              className="p-2.5 sm:p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-violet-600/30 hover:border-violet-500/40 text-white/80 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer focus:outline-none"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+        </div>
+
+      </section>
 
       {/* Case Study Modals */}
       <AnimatePresence>
@@ -424,4 +374,3 @@ export default function Projects() {
     </>
   );
 }
-

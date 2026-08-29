@@ -8,7 +8,6 @@ import Hero from './components/Hero/Hero';
 const About         = lazy(() => import('./components/About/About'));
 const Skills        = lazy(() => import('./components/Skills/Skills'));
 const Projects      = lazy(() => import('./components/Projects/Projects'));
-const WhyWorkWithMe = lazy(() => import('./components/WhyWorkWithMe/WhyWorkWithMe'));
 const Process       = lazy(() => import('./components/Process/Process'));
 const Testimonials  = lazy(() => import('./components/Testimonials/Testimonials'));
 const Contact       = lazy(() => import('./components/Contact/Contact'));
@@ -52,8 +51,6 @@ export default function App() {
           <Skills />
           <Separator />
           <Projects />
-          <Separator />
-          <WhyWorkWithMe />
           <Separator />
           <Process />
           <Separator />
