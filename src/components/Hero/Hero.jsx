@@ -156,6 +156,7 @@ export default function Hero() {
               </Button>
               <a
                 href="/resume.pdf"
+                download="Milind_Patel_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white glass border border-white/[0.08] hover:border-white/20 transition-all duration-200 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
