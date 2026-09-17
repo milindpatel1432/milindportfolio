@@ -108,12 +108,9 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="section-separator mb-6" aria-hidden="true" />
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/40 text-center sm:text-left">
-            © {new Date().getFullYear()} Milind. All rights reserved. <span className="hidden sm:inline text-white/20">•</span> <span className="text-white/60 font-medium">Crafted by <a href="https://milindpatel.in/" target="_blank" rel="noopener noreferrer" className="hover:text-white underline underline-offset-2 transition-colors">Milind Patel</a></span>
-          </p>
-          <p className="text-xs text-white/40">
-            Engineered with React, Vite & Tailwind CSS
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <p className="text-xs text-white/40 text-center">
+            © {new Date().getFullYear()} Milind. All rights reserved. <span className="hidden sm:inline text-white/20">•</span> <span className="text-white/60 font-medium">Crafted by <a href="https://milindpatel.in/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Milind Patel</a></span>
           </p>
         </div>
       </div>
