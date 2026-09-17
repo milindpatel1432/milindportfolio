@@ -9,7 +9,7 @@ import {
   heroText,
 } from '../../utils/animations';
 
-import avatarImg from '../../assets/avatar.png';
+import avatarImg from '../../assets/milind.png';
 
 const techBadges = [
   'React',
