@@ -25,9 +25,14 @@ export default function Contact() {
   const validate = () => {
     const e = {};
     if (!form.name.trim()) e.name = 'Please provide your name';
+    else if (form.name.trim().length < 2) e.name = 'Name must be at least 2 characters';
+
     if (!form.email.trim()) e.email = 'Please provide your email';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email address';
+
     if (!form.message.trim()) e.message = 'Please tell me brief details about your project';
+    else if (form.message.trim().length < 10) e.message = 'Please enter a meaningful message (at least 10 characters)';
+
     return e;
   };
 
@@ -55,10 +60,15 @@ export default function Contact() {
         },
         body: JSON.stringify({
           access_key: '876c7f8c-6ebd-49b5-bd65-08e33c5bc455',
-          name: form.name,
-          email: form.email,
-          subject: form.subject || 'New Portfolio Inquiry',
-          message: form.message,
+          from_name: 'Milind Portfolio Contact Form',
+          subject: form.subject && form.subject.trim()
+            ? `Portfolio: ${form.subject.trim()}`
+            : `New Portfolio Message from ${form.name.trim()}`,
+          replyto: form.email.trim(),
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim(),
+          botcheck: false,
         }),
       });
 
