@@ -11,7 +11,7 @@ const iconMap = { mail: Mail, phone: Phone, 'map-pin': MapPin };
 
 const socialLinks = [
   { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub', color: 'hover:text-white' },
-  { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn', color: 'hover:text-blue-400' },
+  { href: 'https://www.linkedin.com/in/milind-patel2803/', Icon: FiLinkedin, label: 'LinkedIn', color: 'hover:text-blue-400' },
   { href: 'https://instagram.com/its_milind_28', Icon: FiInstagram, label: 'Instagram', color: 'hover:text-pink-400' },
 ];
 

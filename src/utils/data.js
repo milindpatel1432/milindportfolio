@@ -19,7 +19,8 @@ export const navLinks = [
 
 export const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/milindpatel1432', icon: 'github' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/milind', icon: 'linkedin' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/milind-patel2803/', icon: 'linkedin' },
+  { label: 'Instagram', href: 'https://instagram.com/its_milind_28', icon: 'instagram' },
   { label: 'Email', href: 'mailto:milindpatel1432@gmail.com', icon: 'mail' },
 ];
 

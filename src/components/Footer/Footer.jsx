@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
-import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiInstagram, FiMail } from 'react-icons/fi';
 import { navLinks } from '../../utils/data';
 import { viewportOnce } from '../../utils/animations';
 
 const socialLinks = [
   { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub' },
-  { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn' },
+  { href: 'https://www.linkedin.com/in/milind-patel2803/', Icon: FiLinkedin, label: 'LinkedIn' },
+  { href: 'https://instagram.com/its_milind_28', Icon: FiInstagram, label: 'Instagram' },
   { href: 'mailto:milindpatel1432@gmail.com', Icon: FiMail, label: 'Email' },
 ];
 

@@ -5,7 +5,7 @@ import { navLinks } from '../../utils/data';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { cn } from '../../utils/cn';
 import Button from '../Button/Button';
-import { FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 
 const sectionIds = navLinks.map((l) => l.id);
 
@@ -104,13 +104,22 @@ export default function Navbar() {
               <FiGithub size={18} />
             </a>
             <a
-              href="https://linkedin.com/in/milind"
+              href="https://www.linkedin.com/in/milind-patel2803/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
               className="text-white/50 hover:text-white transition-colors duration-200 p-2 rounded-lg hover:bg-white/5"
             >
               <FiLinkedin size={18} />
+            </a>
+            <a
+              href="https://instagram.com/its_milind_28"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram profile"
+              className="text-white/50 hover:text-white transition-colors duration-200 p-2 rounded-lg hover:bg-white/5"
+            >
+              <FiInstagram size={18} />
             </a>
             <Button
               href="#contact"
@@ -217,7 +226,8 @@ export default function Navbar() {
                 <div className="flex items-center justify-center gap-4">
                   {[
                     { href: 'https://github.com/milindpatel1432', Icon: FiGithub, label: 'GitHub' },
-                    { href: 'https://linkedin.com/in/milind', Icon: FiLinkedin, label: 'LinkedIn' },
+                    { href: 'https://www.linkedin.com/in/milind-patel2803/', Icon: FiLinkedin, label: 'LinkedIn' },
+                    { href: 'https://instagram.com/its_milind_28', Icon: FiInstagram, label: 'Instagram' },
                   ].map(({ href, Icon, label }) => (
                     <a
                       key={label}
