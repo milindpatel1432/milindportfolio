@@ -18,14 +18,14 @@ const handleNavClick = (e, id) => {
 export default function Footer() {
   return (
     <footer
-      className="relative border-t border-white/[0.06] px-6 md:px-10 lg:px-20 xl:px-32 py-12 overflow-hidden"
+      className="relative border-t border-white/[0.06] px-6 md:px-10 lg:px-20 xl:px-32 py-5 overflow-hidden"
       aria-label="Site footer"
     >
       {/* Background glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-violet-600/5 blur-3xl rounded-full pointer-events-none" aria-hidden="true" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-8 mb-5">
 
           {/* Brand */}
           <div className="flex flex-col gap-4">
@@ -107,7 +107,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="section-separator mb-6" aria-hidden="true" />
+        <div className="section-separator mb-5" aria-hidden="true" />
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <p className="text-xs text-white/40 text-center">
             © {new Date().getFullYear()} Milind. All rights reserved. <span className="hidden sm:inline text-white/20">•</span> <span className="text-white/60 font-medium">Crafted by <a href="https://milindpatel.in/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Milind Patel</a></span>
