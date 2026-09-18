@@ -101,7 +101,7 @@ export default function Footer() {
               <p className="text-xs text-white/40">Mumbai, India 🇮🇳 (IST / UTC+5:30)</p>
               <div className="flex items-center gap-2 mt-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
-                <span className="text-xs text-emerald-400/90 font-medium">Open for Freelance & Hiring</span>
+                <span className="text-xs text-emerald-400/90 font-medium">Open for Freelance</span>
               </div>
             </div>
           </div>

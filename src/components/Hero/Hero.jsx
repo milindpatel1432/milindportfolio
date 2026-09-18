@@ -81,7 +81,7 @@ export default function Hero() {
             <motion.div variants={fadeUp} className="flex items-center gap-2">
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border border-emerald-500/25 text-xs font-semibold text-emerald-400 shadow-lg shadow-emerald-950/20">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                Available for Freelance & Full-Time
+                Available for Freelance Projects
               </span>
             </motion.div>
 
