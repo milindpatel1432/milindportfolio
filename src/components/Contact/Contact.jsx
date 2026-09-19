@@ -345,9 +345,13 @@ function FormField({ id, label, name, type, placeholder, value, onChange, error,
           aria-required={required}
           aria-describedby={error ? `${id}-error` : undefined}
           aria-invalid={!!error}
-          className={cn(inputClasses, 'bg-[#0a0a0f] text-white cursor-pointer focus:bg-[#0a0a0f]')}
+          className={cn(
+            inputClasses,
+            'cursor-pointer appearance-none bg-[url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba%28255%2C255%2C255%2C0.3%29%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E")] bg-[length:16px_16px] bg-[right_1rem_center] bg-no-repeat pr-10',
+            !value ? 'text-white/25' : 'text-white'
+          )}
         >
-          <option value="" disabled className="bg-[#0a0a0f] text-white/40">
+          <option value="" disabled className="bg-[#0f0f17] text-white/40">
             {placeholder || 'Select Option'}
           </option>
           {options?.map((opt) => (
