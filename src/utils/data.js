@@ -1,6 +1,7 @@
 import gamehubHeroImg from '../assets/gamehub-hero.png';
 import dentalProjectImg from '../assets/thedentalproject.png';
 import shreeAgenciesImg from '../assets/shree-agencies.png';
+import blabberImg from '../assets/blabber-all-day.png';
 
 /**
  * All portfolio data — projects, skills, services, trust signals, nav links.
@@ -113,8 +114,25 @@ export const projects = [
     featured: true,
   },
   {
-    id: 'gamehub',
+    id: 'blabber-all-day',
     number: '03',
+    title: 'Blabber All Day',
+    category: 'web',
+    categoryDisplay: 'Hospitality Website',
+    role: 'WordPress Developer',
+    isRealClient: true,
+    description: "Luxury restaurant & cafe brand website developed for Blabber All Day with a vintage gold aesthetic. Features online table reservations, multi-location discovery, private event booking, and responsive menus.",
+    gradient: 'from-amber-600/30 via-yellow-700/20 to-purple-900/40',
+    accent: '#d97706',
+    image: blabberImg,
+    tech: ['WordPress', 'PHP', 'HTML5', 'CSS3', 'JavaScript'],
+    liveUrl: 'https://blabberallday.com/',
+    hasCaseStudyModal: false,
+    featured: true,
+  },
+  {
+    id: 'gamehub',
+    number: '04',
     title: 'GameHub',
     category: 'e-commerce',
     categoryDisplay: 'E-Commerce Marketplace',
