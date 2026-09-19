@@ -210,7 +210,7 @@ export default function Contact() {
                 label="Your Name"
                 name="name"
                 type="text"
-                placeholder="e.g. Sarah Jenkins"
+                placeholder="Name"
                 value={form.name}
                 onChange={handleChange}
                 error={errors.name}
@@ -221,7 +221,7 @@ export default function Contact() {
                 label="Your Email"
                 name="email"
                 type="email"
-                placeholder="e.g. sarah@company.com"
+                placeholder="Email"
                 value={form.email}
                 onChange={handleChange}
                 error={errors.email}
@@ -238,7 +238,7 @@ export default function Contact() {
                 type="tel"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                placeholder="e.g. 9876543210 (Numbers only)"
+                placeholder="Numbers"
                 value={form.phone}
                 onChange={handleChange}
                 error={errors.phone}
@@ -248,8 +248,9 @@ export default function Contact() {
                 id="contact-subject"
                 label="Project Scope / Subject"
                 name="subject"
-                type="text"
-                placeholder="e.g. Full-Stack App, SaaS MVP, Custom API"
+                type="select"
+                placeholder="Select Project Scope"
+                options={['Custom Website', 'WordPress', 'React', 'Portfolio']}
                 value={form.subject}
                 onChange={handleChange}
               />
@@ -306,7 +307,7 @@ export default function Contact() {
 }
 
 /** Reusable form field */
-function FormField({ id, label, name, type, placeholder, value, onChange, error, required, rows, inputMode, pattern }) {
+function FormField({ id, label, name, type, placeholder, value, onChange, error, required, rows, inputMode, pattern, options }) {
   const inputClasses = cn(
     'w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 transition-all duration-200 focus:outline-none focus:ring-1',
     error
@@ -334,6 +335,27 @@ function FormField({ id, label, name, type, placeholder, value, onChange, error,
           aria-invalid={!!error}
           className={cn(inputClasses, 'resize-none')}
         />
+      ) : type === 'select' ? (
+        <select
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+          required={required}
+          aria-required={required}
+          aria-describedby={error ? `${id}-error` : undefined}
+          aria-invalid={!!error}
+          className={cn(inputClasses, 'bg-[#0a0a0f] text-white cursor-pointer focus:bg-[#0a0a0f]')}
+        >
+          <option value="" disabled className="bg-[#0a0a0f] text-white/40">
+            {placeholder || 'Select Option'}
+          </option>
+          {options?.map((opt) => (
+            <option key={opt} value={opt} className="bg-[#0f0f17] text-white py-2">
+              {opt}
+            </option>
+          ))}
+        </select>
       ) : (
         <input
           id={id}
