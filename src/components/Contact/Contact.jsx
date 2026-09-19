@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2, Sparkles } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2, Sparkles, ChevronDown, Check } from 'lucide-react';
 import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import Section, { SectionHeading } from '../../layouts/Section';
 import { contactInfo } from '../../utils/data';
@@ -308,6 +308,24 @@ export default function Contact() {
 
 /** Reusable form field */
 function FormField({ id, label, name, type, placeholder, value, onChange, error, required, rows, inputMode, pattern, options }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSelect = (optionValue) => {
+    onChange({ target: { name, value: optionValue } });
+    setIsOpen(false);
+  };
+
   const inputClasses = cn(
     'w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 transition-all duration-200 focus:outline-none focus:ring-1',
     error
@@ -316,7 +334,7 @@ function FormField({ id, label, name, type, placeholder, value, onChange, error,
   );
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div ref={type === 'select' ? containerRef : undefined} className="flex flex-col gap-1.5 relative">
       <label htmlFor={id} className="text-xs font-semibold text-white/60">
         {label}
         {required && <span className="text-violet-400 ml-1" aria-hidden="true">*</span>}
@@ -336,30 +354,60 @@ function FormField({ id, label, name, type, placeholder, value, onChange, error,
           className={cn(inputClasses, 'resize-none')}
         />
       ) : type === 'select' ? (
-        <select
-          id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
-          required={required}
-          aria-required={required}
-          aria-describedby={error ? `${id}-error` : undefined}
-          aria-invalid={!!error}
-          className={cn(
-            inputClasses,
-            'cursor-pointer appearance-none bg-[url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba%28255%2C255%2C255%2C0.3%29%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E")] bg-[length:16px_16px] bg-[right_1rem_center] bg-no-repeat pr-10',
-            !value ? 'text-white/25' : 'text-white'
-          )}
-        >
-          <option value="" disabled className="bg-[#0f0f17] text-white/40">
-            {placeholder || 'Select Option'}
-          </option>
-          {options?.map((opt) => (
-            <option key={opt} value={opt} className="bg-[#0f0f17] text-white py-2">
-              {opt}
-            </option>
-          ))}
-        </select>
+        <>
+          <button
+            type="button"
+            id={id}
+            onClick={() => setIsOpen((prev) => !prev)}
+            className={cn(
+              inputClasses,
+              'flex items-center justify-between text-left cursor-pointer',
+              isOpen && 'border-violet-500/60 ring-2 ring-violet-500/20 bg-white/[0.07]',
+              !value ? 'text-white/25' : 'text-white'
+            )}
+          >
+            <span className="truncate">{value || placeholder || 'Select Option'}</span>
+            <ChevronDown
+              size={16}
+              className={cn(
+                'text-white/40 shrink-0 transition-transform duration-200 ml-2',
+                isOpen && 'rotate-180 text-violet-400'
+              )}
+            />
+          </button>
+
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                animate={{ opacity: 1, y: 4, scale: 1 }}
+                exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                className="absolute left-0 right-0 top-full z-50 mt-1 rounded-xl bg-[#0f0f18]/95 backdrop-blur-xl border border-violet-500/30 shadow-2xl shadow-black/80 overflow-hidden py-1.5"
+              >
+                {options?.map((opt) => {
+                  const isSelected = value === opt;
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => handleSelect(opt)}
+                      className={cn(
+                        'w-full flex items-center justify-between px-4 py-2.5 text-sm transition-all duration-150 text-left',
+                        isSelected
+                          ? 'bg-violet-500/20 text-violet-300 font-medium'
+                          : 'text-white/80 hover:bg-white/[0.08] hover:text-white'
+                      )}
+                    >
+                      <span>{opt}</span>
+                      {isSelected && <Check size={14} className="text-violet-400 shrink-0 ml-2" />}
+                    </button>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </>
       ) : (
         <input
           id={id}
