@@ -15,7 +15,7 @@ const socialLinks = [
   { href: 'https://instagram.com/its_milind_28', Icon: FiInstagram, label: 'Instagram', color: 'hover:text-pink-400' },
 ];
 
-const initialForm = { name: '', email: '', subject: '', message: '' };
+const initialForm = { name: '', email: '', phone: '', subject: '', message: '' };
 
 export default function Contact() {
   const [form, setForm] = useState(initialForm);
@@ -30,6 +30,9 @@ export default function Contact() {
     if (!form.email.trim()) e.email = 'Please provide your email';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email address';
 
+    if (!form.phone.trim()) e.phone = 'Please provide your phone number';
+    else if (form.phone.trim().length < 10) e.phone = 'Phone number must be at least 10 digits';
+
     if (!form.message.trim()) e.message = 'Please tell me brief details about your project';
     else if (form.message.trim().length < 10) e.message = 'Please enter a meaningful message (at least 10 characters)';
 
@@ -38,7 +41,13 @@ export default function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+    if (name === 'phone') {
+      // Only allow numbers (0-9)
+      const numericValue = value.replace(/\D/g, '').slice(0, 15);
+      setForm((f) => ({ ...f, phone: numericValue }));
+    } else {
+      setForm((f) => ({ ...f, [name]: value }));
+    }
     if (errors[name]) setErrors((er) => ({ ...er, [name]: '' }));
   };
 
@@ -67,6 +76,7 @@ export default function Contact() {
           replyto: form.email.trim(),
           name: form.name.trim(),
           email: form.email.trim(),
+          phone: form.phone.trim(),
           message: form.message.trim(),
           botcheck: false,
         }),
@@ -219,15 +229,31 @@ export default function Contact() {
               />
             </div>
 
-            <FormField
-              id="contact-subject"
-              label="Project Scope / Subject"
-              name="subject"
-              type="text"
-              placeholder="e.g. Full-Stack App, SaaS MVP, Custom API"
-              value={form.subject}
-              onChange={handleChange}
-            />
+            {/* Phone + Subject row */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <FormField
+                id="contact-phone"
+                label="Phone Number"
+                name="phone"
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="e.g. 9876543210 (Numbers only)"
+                value={form.phone}
+                onChange={handleChange}
+                error={errors.phone}
+                required
+              />
+              <FormField
+                id="contact-subject"
+                label="Project Scope / Subject"
+                name="subject"
+                type="text"
+                placeholder="e.g. Full-Stack App, SaaS MVP, Custom API"
+                value={form.subject}
+                onChange={handleChange}
+              />
+            </div>
 
             <FormField
               id="contact-message"
@@ -280,7 +306,7 @@ export default function Contact() {
 }
 
 /** Reusable form field */
-function FormField({ id, label, name, type, placeholder, value, onChange, error, required, rows }) {
+function FormField({ id, label, name, type, placeholder, value, onChange, error, required, rows, inputMode, pattern }) {
   const inputClasses = cn(
     'w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 transition-all duration-200 focus:outline-none focus:ring-1',
     error
@@ -317,6 +343,8 @@ function FormField({ id, label, name, type, placeholder, value, onChange, error,
           onChange={onChange}
           placeholder={placeholder}
           required={required}
+          inputMode={inputMode}
+          pattern={pattern}
           aria-required={required}
           aria-describedby={error ? `${id}-error` : undefined}
           aria-invalid={!!error}
