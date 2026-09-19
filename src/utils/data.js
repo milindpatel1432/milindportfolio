@@ -95,7 +95,7 @@ export const projects = [
     hasCaseStudyModal: false,
     featured: true,
   },
-  {
+  /* {
     id: 'shree-agencies',
     number: '02',
     title: 'Shree Agencies',
@@ -112,10 +112,10 @@ export const projects = [
     caseStudyUrl: '#shree-agencies',
     hasCaseStudyModal: true,
     featured: true,
-  },
+  }, */
   {
     id: 'blabber-all-day',
-    number: '03',
+    number: '02',
     title: 'Blabber All Day',
     category: 'web',
     categoryDisplay: 'Hospitality Website',
@@ -125,14 +125,14 @@ export const projects = [
     gradient: 'from-amber-600/30 via-yellow-700/20 to-purple-900/40',
     accent: '#d97706',
     image: blabberImg,
-    tech: ['WordPress', 'PHP', 'HTML5', 'CSS3', 'JavaScript'],
+    tech: ['WordPress', 'PHP', 'Elementor'],
     liveUrl: 'https://blabberallday.com/',
     hasCaseStudyModal: false,
     featured: true,
   },
   {
     id: 'gamehub',
-    number: '04',
+    number: '03',
     title: 'GameHub',
     category: 'e-commerce',
     categoryDisplay: 'E-Commerce Marketplace',
