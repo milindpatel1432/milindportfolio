@@ -33,6 +33,8 @@ export default function Contact() {
     if (!form.phone.trim()) e.phone = 'Please provide your phone number';
     else if (form.phone.trim().length < 10) e.phone = 'Phone number must be at least 10 digits';
 
+    if (!form.subject.trim()) e.subject = 'Please select a project scope';
+
     if (!form.message.trim()) e.message = 'Please tell me brief details about your project';
     else if (form.message.trim().length < 10) e.message = 'Please enter a meaningful message (at least 10 characters)';
 
@@ -253,6 +255,8 @@ export default function Contact() {
                 options={['Custom Website', 'WordPress', 'React', 'Portfolio']}
                 value={form.subject}
                 onChange={handleChange}
+                error={errors.subject}
+                required
               />
             </div>
 
